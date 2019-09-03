@@ -119,6 +119,68 @@ This means while the immersion of the player is less present as you are not thro
 out of the building when caught but just reset to a certain point, the entire
 experience is delivered in such a way that it feels good and non-frustrating.
 
-## Designing challenge
+## Designing challenges
 
+This chapter will descript the design challenges that will be faced when designing
+this AI and game.
 
+### Alert level and resolving the situation
+
+If we look at games that implement an alert level like *Metal Gear Solid*, *GTA* and *Hitman*.
+These systems either go for slow decay of the alert or an instant switch.
+It takes time for the guards to "forget" about you and move on with their life.
+Even if *GTA* isn't a stealth game, its not natural for the police to just give
+up a chase or stop searching but it makes the gameplay fun and rewarding.
+
+In stealth games this can work in a different way, camping.
+Lets look at *GTA 4* against a game like *Hitman*. In *GTA 4* there is a detection
+circle.
+
+![Wanted level circle GTA 4](./attachments/Radar-GTA4-wanted.png)
+
+This is basically the scene of the crime and exiting this will result
+in your *wanted level* (alert level) getting removed after a period of time.
+This circle encourages the player to quickly move and make
+potentially violent actions. This is exactly what the game wants.
+
+Now compare this to most stealth games, if your alert level drops slowly.
+The default tactic is (kill), run and hide, most often there is
+something like a container or locker that the player can hide in.
+
+![Hiding in a container](./attachments/hideincontainer.png)
+
+In a mostly action based game, this means that you are breaking
+the action and sitting still.
+
+#### My solution
+
+I want to solve the action killing by making lowering an alert level
+interesting, fun and intuitive.
+
+The first idea is come to mind is a *Prototype 2* or *PAYDAY 2* system.
+When the guard is killed or alerted, the player can pretend to be the guard
+but can only fool the operator a set number of time (difficulty).
+
+In *PAYDAY2* this is the pager system, when a guard is killed, made surrender or
+knocked out, the player must answer the pager in time and give an excuse.
+There are a few issues with this:
+
+- A stealth kill ALWAYS results in a pager, this means the guard always presses
+the pager just before he/she gets killed, unrealistic.
+- The voice of the person is obviously the same each time with a little bit of
+a higher or lower pitch, unrealistic.
+
+However this mechanic could be combined with another game, *Prototype 2*.
+In this game to get out of detection, you will need to consume a NPC and wear
+his skin as a disguise.
+
+![Prototype 2 disguise](attachments/prototype2disguise.jpg)
+
+Now what if we combine these mechanics as shown with Angel in *Borderlands 2*.
+Emulate the voice of someone to bypass some sort of security.
+We get enough data about a person to disguise as them in a difficult and stressful
+situation, maybe with a stressful minigame.
+Then we can use his/her voice to pretend to be them and call off the alert.
+The body of the person would still be here and with the lack of body bags like
+in *PAYDAY 2*. The stress situation persists even after the guard and alert
+has been dealt with.
