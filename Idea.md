@@ -15,6 +15,7 @@ From the context of the room and the movement of the guard it should be possible
 to understand where the guard is going at all times.
 
 A good example of this is *The Legend of Zelda: Ocarina of Time*.
+
 ![OoT Guard in maze](./attachments/ootguard.jpeg)
 
 The layout of the building makes it clear that the guard is moving in a square
@@ -117,3 +118,7 @@ checkpoint system. With every minor step that you continue, there is a checkpoin
 This means while the immersion of the player is less present as you are not thrown
 out of the building when caught but just reset to a certain point, the entire
 experience is delivered in such a way that it feels good and non-frustrating.
+
+## Designing challenge
+
+
