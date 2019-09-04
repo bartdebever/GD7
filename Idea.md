@@ -9,7 +9,7 @@ document.
 The term Guard AI will be constantly used further in this document.
 Within this chapter, the term will be explained.
 
-![Dishonnered Guards](attachments/Dishonered2.jpg)
+![Dishonoured Guards](attachments/Dishonered2.jpg)
 
 With Guard AI, the NPC characters that keep watch over a certain objective.
 The objective of the player should be to sneak by the guard and go undetected.
@@ -224,3 +224,11 @@ Then we can use his/her voice to pretend to be them and call off the alert.
 The body of the person would still be here and with the lack of body bags like
 in *PAYDAY 2*. The stress situation persists even after the guard and alert
 has been dealt with.
+
+Lets try another thing but more hiding in plane sight.
+Lets say the theme of the game is a more cartoon setting.
+A way to implement hiding in a fun and in character way could be how *A Link between worlds*
+implements the movement system. You could merge with the wall and appear as a painting.
+Having to do a form of minigame or action to be able to get of the alert level.
+
+![Link in a wall](attachments/linkinwall.jpg)
