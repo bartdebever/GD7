@@ -75,6 +75,27 @@ The positive effect for *PAYDAY 2* that is also added here is the option
 to see where the guard is looking and if it's able to spot you.
 In the light, means I'm seen.
 
+I want to focus on what was swiftly said before.
+**Predictability**, a guard's behaviour should be understandable and predictable
+by the player. The player should be able to understand where the guard is going
+at nearly every point in the gameplay proces.
+This doesn't have to happen instantly, the player can make a mental map of
+the area and the guards in it by observing their movement.
+
+This is one of the reasons why stealth games offer a lot of vertical ground
+as well. The player can observe guards better from high up than they can from the ground.
+This is mostly notable in *PAYDAY 2*'s Shadow Raid and *Dishonoured*.
+These games feature guards that have more complex paths.
+The player is allowed time and safety to observe these guards and figure out how
+this level works.
+
+The predictability also has to flow further into the actions that the AI takes.
+In *PAYDAY 2* and *Hitman* will first try a passive approach if you are found
+trespassing. They will point their gun at you and tell you to surrender, arresting
+you if you comply.
+If you do not comply both will start to figure and start a chain reaction of
+alerting other guards, would it be through an alarm or the gun making noises.
+
 ## Fair
 
 A guard must have distinct characteristics and must not randomly change these.
