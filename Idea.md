@@ -4,6 +4,25 @@ The idea is to make an guard AI that is fun, fair and intuitive.
 These 3 aspects are the most important and will be further explored within this
 document.
 
+## What is guard AI
+
+The term Guard AI will be constantly used further in this document.
+Within this chapter, the term will be explained.
+
+![Dishonnered Guards](attachments/Dishonered2.jpg)
+
+With Guard AI, the NPC characters that keep watch over a certain objective.
+The objective of the player should be to sneak by the guard and go undetected.
+With Guard AI the following mechanics are included:
+
+- Communication between the guards
+- What the guard sees
+- What the guard hears
+- What the guard smells
+- How the guard reacts when seeing a suspicious action on different alert levels.
+- The movement of the guard
+- How the alert level can be lowered
+
 ## Intuitive
 
 Guard AI should be intuitive and understandable to the player.
@@ -16,7 +35,7 @@ to understand where the guard is going at all times.
 
 A good example of this is *The Legend of Zelda: Ocarina of Time*.
 
-![OoT Guard in maze](./attachments/ootguard.jpeg)
+![OoT Guard in maze](attachments/ootguard.jpeg)
 
 The layout of the building makes it clear that the guard is moving in a square
 around the hedges.
@@ -24,7 +43,7 @@ The player now understands that he as to wait until there is no guard in his pat
 There is also a distinct feature on the guard himself. The spear always points
 to the direction he is facing and where he is going.
 
-![OoT Guard closeup](./attachments/ootsoldier.png)
+![OoT Guard closeup](attachments/ootsoldier.png)
 
 In this way even the children could get past these guards without much of an issue.
 Of course Nintendo didn't introduce the guard in a complex situation that takes
@@ -50,7 +69,7 @@ Most *PAYDAY 2* stealth maps are in the dark, meaning the light coming from the
 guard is viewable even when not in direct sight of the guard.
 It also gives a distinct indication into which way the guard is moving.
 
-![Payday2 guard](./attachments/payday2guard.jpg)
+![Payday2 guard](attachments/payday2guard.jpg)
 
 The positive effect for *PAYDAY 2* that is also added here is the option
 to see where the guard is looking and if it's able to spot you.
@@ -99,7 +118,7 @@ and be frequent enough based on for example difficulty.
 
 A bad example of this is *The Legend of Zelda: Breath of the Wild* and *Metal Gear Rising: Revengance*.
 
-![BotW stealth section](./attachments/botwstealth.jpeg)
+![BotW stealth section](attachments/botwstealth.jpeg)
 
 While I both love these titles, the stealth sections are a pain.
 The player is basically forced to do these sections in one go within a game that
@@ -136,7 +155,7 @@ In stealth games this can work in a different way, camping.
 Lets look at *GTA 4* against a game like *Hitman*. In *GTA 4* there is a detection
 circle.
 
-![Wanted level circle GTA 4](./attachments/Radar-GTA4-wanted.png)
+![Wanted level circle GTA 4](attachments/Radar-GTA4-wanted.png)
 
 This is basically the scene of the crime and exiting this will result
 in your *wanted level* (alert level) getting removed after a period of time.
@@ -147,7 +166,7 @@ Now compare this to most stealth games, if your alert level drops slowly.
 The default tactic is (kill), run and hide, most often there is
 something like a container or locker that the player can hide in.
 
-![Hiding in a container](./attachments/hideincontainer.png)
+![Hiding in a container](attachments/hideincontainer.png)
 
 In a mostly action based game, this means that you are breaking
 the action and sitting still.
