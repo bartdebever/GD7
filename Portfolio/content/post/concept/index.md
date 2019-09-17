@@ -105,4 +105,29 @@ and should not be limited to a type of movement because how I programmed my syst
 The end product of this project will be multiple gameplay systems that work
 together to create one first person stealth game.
 
+These are the scripts I expect to be developed within this project:
+
+### Guard AI
+
+The AI and statemachine that drives the guard to perform actions.
+These actions (movement, attack, etc) can be specified by the developer.
+
+### Suspicious object
+
+Defines a specific object, how much alert it gives and how long it takes for
+a guard to inspect the object.
+
+This script can be put on objects like cans that a player can throw at the enemy,
+the player themselves, guns or things the player can interact with.
+
+### Simple detection
+
+A simple form of detection that the guards can do to spot objects.
+This should be replaceable by the developer but I want to at least supply a default.
+
+### Global settings
+
+Modifiers that guards' statistics get to make the gameplay more and less difficult.
+This also should allow the developer to easily implement difficult and an assist mode.
+
 # STILL IN PROGRESS
