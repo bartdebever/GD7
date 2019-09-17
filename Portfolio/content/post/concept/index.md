@@ -99,3 +99,10 @@ The following image is an example state machine taken from google.
 Furthermore it will be important to work modularly and component based within
 Unity itself. Developers should be able to expand the AI and systems themselves
 and should not be limited to a type of movement because how I programmed my system.
+
+## End product
+
+The end product of this project will be multiple gameplay systems that work
+together to create one first person stealth game.
+
+# STILL IN PROGRESS
