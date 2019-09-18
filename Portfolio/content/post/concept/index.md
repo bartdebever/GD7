@@ -130,4 +130,52 @@ This should be replaceable by the developer but I want to at least supply a defa
 Modifiers that guards' statistics get to make the gameplay more and less difficult.
 This also should allow the developer to easily implement difficult and an assist mode.
 
+## The game
+
+To show that the concept is worthy of the time spent on it, it will be implemented
+into a game that will be played in user tests.
+
+The game will be a third person stealth game where the player has to reach the
+goal as shown by a simple camera shot.
+In their way, the player will find the guards patrolling the area.
+The player will be able to deceive and avoid these guards or if needed, eliminate.
+
+There will be a top down camera in the style of *Hotline Miami* or *Monaco*.
+
+![Monaco camera style](attachments/monaco.jpg)
+
+This will allow the player to see the guards more easily and observe their patterns.
+The realism goes down because of this camera angle but when executed well, that is
+not an issue.
+
+To mimic the mechanics found in Dishonored 2 (the blink ability) we'll give the
+player a grapling hook. This allows them to have high speed and move by guards quickly.
+
+The player will also be able to eliminate guards or find disguises laying around.
+This will help deceive guards and move more easily.
+
+## Indicators
+
+In this chapter I'll discuss how I will prove that my game is interesting and
+that I've made an interesting stealth pack for the player.
+
+### User Testing
+
+The product will continuously be user tested. This first happened with a paper
+prototype where I looked at how players predicted the paths of guards with
+and without guidelines.
+This will continue to a point where we set up 2 scenarios for different players
+and ask the players how smart the AI felt.
+This just tests how players feel the difficulty is in terms of the guards.
+When the guards have less give-aways and spot objects more easily, the player might
+find them smarter. This works till the turning point where players will find
+the guards too difficult and see them as unfair rather than smart.
+
+There will also be looked at how well the player does at navigating the level
+and around the guards. Both by recorded gameplay and actual observing.
+The player does not get hints unless fully stuck and observations will not be
+mentioned towards the player before the experiment ends.
+In this way it can be checked that the found solution and analysed games/mechanics
+actually work in the implemented prototype.
+
 # STILL IN PROGRESS

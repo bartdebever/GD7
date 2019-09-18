@@ -1,10 +1,10 @@
-Feedpulse:
+FeedPulse:
     "Meta" dingen invullen, wat leer ik over het leren en wat kan ik meenemen
     naar een volgend project. Zowel positief en negatief.
     Wil geen product horen maar meer over analyse, design, etc.
     Geen docent feedback inzetten, eigenlijk alleen maar eigen ervaring.
 
-Feedpulse wordt gebruikt om de prof. skills. aan te tonen aka einde van het project.
+FeedPulse wordt gebruikt om de prof. skills aan te tonen aka einde van het project.
 
 Koppeling tussen stealth en system beter definiëren
 
@@ -12,3 +12,22 @@ Beslissing maken tussen design ik user of voor developer.
 Design challenge definiëren
 
 Zijn positief over analyse en scope is niet te breed gepakt.
+
+Eerst hebben over de design challenge en daarna door gaan op de update.
+Maak je product toetsbaar.
+Definieer zelf de kwaliteits criteria en zorg ervoor dat je zelf uitspraak kan doen
+of deze design challenges zijn behaald. Zorg ervoor dat alles methodisch wordt
+geformuleerd en wanneer dat juist is, is het principe behaald.
+
+Types of fun gaan toepassen op design challenge en hoe kom je aan de resultaten.
+Observeren in plaats van vragen. Kijken naar regressietesten.
+
+Volgende week "presentatie":
+
+- FeedPulse
+- Design challenge -> "operators" wat moet je conclusie worden vanuit het project.
+Hoe wordt het meetbaar/evolueerbaar.
+- Voortgang
+
+Laat dingen zien, visueel.
+Koppeling product en leerdoelen.
