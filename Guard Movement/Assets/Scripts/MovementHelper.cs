@@ -24,7 +24,11 @@ namespace Assets.Scripts
 
         public static bool IsNotInRange(GameObject origin, Vector3 target, float maxDistance)
         {
-            return Vector3.Distance(origin.transform.position, target) > maxDistance;
+            var originPosition = origin.transform.position;
+
+            // Fake the y position
+            target.y = originPosition.y;
+            return Vector3.Distance(originPosition, target) > maxDistance;
         }
     }
 }

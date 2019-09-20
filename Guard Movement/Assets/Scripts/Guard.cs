@@ -61,6 +61,11 @@ public class Guard : SimpleStateMachine
 
     public void FixedUpdate()
     {
+        if (Game.IsPaused)
+        {
+            return;
+        }
+
         switch (_state)
         {
             case GuardModes.Route:
