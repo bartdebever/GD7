@@ -43,7 +43,6 @@ public abstract class SimpleStateMachine : MonoBehaviour
         {
             if (_alertLevel >= keys[i])
             {
-                Debug.Log(keys[i]);
                 return keys[i];
             }
         }

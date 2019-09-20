@@ -34,6 +34,7 @@ public class CameraScript : MonoBehaviour
                 gameObject.transform.localEulerAngles = rotation;
 
                 gameObject.transform.SetParent(ParentObject.transform);
+                Destroy(_rigidbody);
                 Game.IsPaused = false;
                 Debug.Log("Starting game.");
             }
