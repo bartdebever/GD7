@@ -6,7 +6,7 @@ subtitle: ""
 summary: ""
 authors: []
 tags: []
-categories: []
+categories: ["analysis", "existing product"]
 date: 2019-09-17T09:46:52+02:00
 lastmod: 2019-09-17T09:46:52+02:00
 featured: false

@@ -27,7 +27,7 @@ image:
 #   icon_pack: fab
 #   icon: twitter
 
-url_code: ""
+url_code: "https://github.com/bartdebever/GD7"
 url_pdf: ""
 url_slides: ""
 url_video: ""
@@ -39,3 +39,20 @@ url_video: ""
 #   Otherwise, set `slides = ""`.
 slides: ""
 ---
+
+Personal project to create a stealth focussed asset pack.
+
+Reading guide would be perfect here.
+
+## Research
+
+The main question asked for research is:
+
+*How do I design and make a reusable pack of assets*:
+
+Operators that could support this question are:
+
+- Is the documentation sufficient?
+- Can developers implement their own systems into the assets?
+- Are the assets fun for the player?
+- Is the difficulty adjustable enough

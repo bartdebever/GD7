@@ -6,7 +6,7 @@ subtitle: ""
 summary: ""
 authors: []
 tags: []
-categories: []
+categories: ["document"]
 date: 2019-09-17T08:20:48+02:00
 lastmod: 2019-09-17T08:20:48+02:00
 featured: false

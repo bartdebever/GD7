@@ -6,7 +6,7 @@ subtitle: "How do guards work in video games."
 summary: "An simple analysis of guard AI in existing games."
 authors: ["Bart de Bever"]
 tags: []
-categories: []
+categories: ["analysis", "game design"]
 date: 2019-09-10T10:51:54+02:00
 lastmod: 2019-09-10T10:51:54+02:00
 featured: false
