@@ -80,7 +80,7 @@ imposed by the environment, guard and the mechanics.
 
 You are a thief invading a jewellery for doing a heist.
 You've gotten your loot and need to go outside now but accidentally tripped an alarm.
-Guards have come and are pattrolling the area. It is now up to you to evade
+Guards have come and are patrolling the area. It is now up to you to evade
 these guards and bring the treasure back home.
 
 ### Theme
