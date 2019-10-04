@@ -60,3 +60,14 @@ will be much easier on the developer to work with.
 
 On his second point, this is the idea of when the user actually implements this
 interface. This means that this is not clear within the design document and should be adjusted.
+
+## Revision 1
+
+This revision was made during the implementation of this model, discovering issues
+and feedback from peers on the design.
+
+![UML design document revision 1](attachments/GuardAIv2.png)
+
+The most notable change within this design is the addition of the `MonoX` classes.
+These implement the interfaces and MonoBehaviour so that it can be added and attached
+to by the Unity Editor.
