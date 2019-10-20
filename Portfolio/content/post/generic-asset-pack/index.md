@@ -40,14 +40,14 @@ Code examples may be given for C# code.
 Due to having made some NuGet packages and trying to split up my own personal
 workload into different applications and projects, I've had some experience working
 with making code generic. Within C# there exist a lot of language features that
-help with making code generic. *Interfaces*, *abstract classes*, *Type parameters*,
+help with making code generic. *Interfaces*, *abstract classes*, *type parameters*,
 all these tools help making and implementing generic code easier for developers.
 
-Unity has a layer on top of this as well, the two main abstract classes within Unity
+Unity has a layer on top of this, the two main abstract classes within Unity
 are *GameObject* and *MonoBehaviour*.
 
 *GameObject* is the base class that every
-object is extended from. A Cube, Sphere, Triangle or your entire model (container)
+object is extended from. A Cube, Sphere, Triangle or your entire model of a character
 is a *GameObject*. Even things like the camera, lighting and non physical objects
 that control systems are *GameObjects*.
 
@@ -58,8 +58,8 @@ and are not attachable to a *GameObject*.
 
 ## Patterns
 
-Within software there are multiple patterns that a developer can follow to implement
-features. For making generic and expandable classes there are multiple patterns in place.
+Within software there are multiple patterns that a developer can follow to develop software.
+For making generic and expandable classes there are multiple patterns in place.
 This chapter will contain information about those patterns, their upsides and downsides.
 
 ### Event driven
@@ -73,7 +73,7 @@ to each subscriber.
 The following code snippit is an easy implementation of an event firing class.
 This snippit is taken from [Unitycoder.com](https://i0.wp.com/unitycoder.com/blog/wp-content/uploads/2015/01/events_delegates.jpg?fit=680%2C400&ssl=1),
 for the record, I do not recommend such an easy implementation and anything in
-the created prototype will be more build out than this.
+the created prototype will be further developed than this.
 
 ```cs
 public class FireEvent
@@ -98,7 +98,7 @@ public class FireEvent
 
 The upsides of this pattern is that Unity/C# has native support and allows for
 an easy implementation. Unity and the community around Unity have made multiple
-guides on how to use this pattern and it's also been taught before.
+guides on how to use this pattern and it's also been taught before at Fontys.
 
 The downside of this pattern is the clutter that it can become. It's hard to figure
 out when the event is triggered, in what order the methods will be called.
@@ -156,20 +156,20 @@ and this can give more difficulties:
 ### Unity Component System
 
 Like the name applies, the Component system that Unity uses could be used to set up
-communication between different components. The components come in as a normal C# class
-would do and the sender has access to all public methods and fields that the
-receiver has. This communication could possibly go two ways, the sender calls a method
+communication between different components. The components are C# classes and
+methods can be called or properties read out.
+This communication could possibly go two ways, the sender calls a method
 on the receiver that has a return value and processes it further.
 
-This style of communication is often seen in such Manager classes. They are a thing
-that most Unity developers come back on when making systems that need to be given
+This style of communication is often seen in Manager classes. They are a thing
+that most Unity developers come back to when making systems that need to be given
 a direction. This could actually be compared to a real life manager, having a view
 over resources and dedicated them where needed.
 
 > At this time I unfortunately don't have a clever picture or code snippit to share.
 
 The upside is the build in support for this kind of system and that the developer
-is already used to it because of it. Two way communication is also easy to apply.
+is already used to it because. Two way communication is also easy to apply.
 Use of interfaces and abstract classes is possible.
 
 The downside is that this has a dependency on Unity and MonoBehaviour. This isn't
@@ -178,9 +178,9 @@ later. On that note...
 
 ### Entity Component System
 
-Unity is working towards a new performant data driven way of working on applications.
+Unity is working towards a new, performant, data driven way of working on games.
 For short this is called ECS. The system classes are what the user could use to
-implement things like movement based on the data we provide from the package very easily.
+implement things like movement based on the data we provide from the package.
 The issue is that this system is still in preview and it shows. Documentation
 is rather limited and so is the knowledge base.
 
@@ -217,13 +217,13 @@ protected override JobHandle OnUpdate(JobHandle inputDependencies)
 }
 ```
 
-It would be really awesome to implement this but as discovered today with the workshop,
-the system can be very complex to program and has a steep learning curve.
+It would be really awesome to implement this but as discovered with the workshop,
+the system can be very complex to implement and has a steep learning curve.
 I wanted to include this for the sake of having it noted down.
 
 ## Available product analysis
 
-To make sure that the previous mentioned products are actually being used,
+To make sure that the previous mentioned patterns are actually being used,
 there is going to be a look into the top 10 popular AI asset packs within the
 Unity asset store and check out what pattern they follow
 
@@ -241,10 +241,10 @@ Unity asset store and check out what pattern they follow
 | Aircraft AI system             |                         | No documentation                                      |                                                                                     |       |
 | PolyNav - 2D Pathfinding       | Callback or Event based | Events are an alternative                             | https://drive.google.com/file/d/120M2csM2dA6uPVdg_ZIU0BSsPuJKVQJW/view              |       |
 
-This turned out to not be 10 asset packs as the pack were starting to get no
-documentation and barely any user reviews, unrepresentative.
+This turned out to not be 10 asset packs as they were starting to get no
+documentation and barely any user reviews, they were unrepresentative.
 
 From the results we can see that *Unity Component System* is used the most with
 *Event Based* as a close second.
 
-This means in my project I will use the *Unity Component System* and *Event Based*.
+As a conclusion, in my project will use the *Unity Component System* and *Event Based*.

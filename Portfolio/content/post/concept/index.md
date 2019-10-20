@@ -32,8 +32,8 @@ projects: ["stealth-ai"]
 
 This document will attempt to explain how the project will be implemented
 within the context of Unity.
-A minimal amount of knowledge of the Unity components is needed and no code
-will be shown during this example.
+A minimal amount of knowledge of the Unity components is needed.
+No code will be shown during this example.
 
 ## Included and excluded systems
 
@@ -42,14 +42,13 @@ at what systems not to include within the system.
 
 To start off, lets focus on the player, the first mechanic a developer would need
 to implement is the camera and movement system of the player character.
-This is something I will intend to leave at the developers implementation as this
+This is something I intend to leave at the developers to implementation as the implementation
 varies a lot on a game by game basis.
 
 The main focus of the project is on the guard AI and developing tools around it.
-How would I implement an interface for being searching, being alerted, movement, etc?
+How would I implement an interface for searching, being alerted, movement, etc?
 How would you make these components and make them expandable for the developer without
-them having to even open your source code?
-How could I make the game play itself?
+the developer having to even open the source code?
 
 ## Research and design possibilities
 
@@ -57,7 +56,7 @@ There are a ton of research possibilities available within this concept.
 On the first side there is a possibility to look at things from the player side:
 
 - How does a guard communicate where he is going?
-- What does the guard think about the current situation?
+- What does the guard think about in the current situation?
 - What can I get away with at this stage of alert?
 
 There are still a ton of questions like this that can be asked and possibly answered.
@@ -85,14 +84,14 @@ that the player has about the guard? *(lab)*
 In this section it will be discussed what could be designed ahead of developing this
 project.
 
-As discussed with both Jack (the teacher) and Bas (a student) the guards will
+As discussed with both Jack (a teacher) and Bas (a student) the guards will
 most likely use a state machine to perform actions under different conditions
 and states of alert. There are multiple products that already do this for the developer
 which could be used.
 I would like to at least understand, design and implement the state machine myself
 as a learning experience, even if this is not used afterwards.
 
-The following image is an example state machine taken from google.
+The following image is an example state machine taken from Google.
 
 ![Simple state machine example](attachments/statemachine.jpg)
 
@@ -103,13 +102,13 @@ and should not be limited to a type of movement because how I programmed my syst
 ## End product
 
 The end product of this project will be multiple gameplay systems that work
-together to create one first person stealth game.
+together to create a stealth game.
 
 These are the scripts I expect to be developed within this project:
 
 ### Guard AI
 
-The AI and statemachine that drives the guard to perform actions.
+The AI and statemachine that makes the guard to perform actions.
 These actions (movement, attack, etc) can be specified by the developer.
 
 ### Suspicious object
@@ -122,13 +121,13 @@ the player themselves, guns or things the player can interact with.
 
 ### Simple detection
 
-A simple form of detection that the guards can do to spot objects.
+A simple form of detection that the guards can use to spot objects.
 This should be replaceable by the developer but I want to at least supply a default.
 
 ### Global settings
 
 Modifiers that guards' statistics get to make the gameplay more and less difficult.
-This also should allow the developer to easily implement difficult and an assist mode.
+This also should allow the developer to easily implement difficulty and an assist mode.
 
 ## The game
 
@@ -177,5 +176,3 @@ The player does not get hints unless fully stuck and observations will not be
 mentioned towards the player before the experiment ends.
 In this way it can be checked that the found solution and analysed games/mechanics
 actually work in the implemented prototype.
-
-# STILL IN PROGRESS

@@ -67,10 +67,9 @@ With Guard AI the following mechanics are included:
 Guard AI should be intuitive and understandable to the player.
 The player should have a clear understanding of what the guard is seeing at
 times and shouldn't feel cheated when a guard spotted him/her.
-These guards should have realistic reactions and realistic walking patterns.
 
 From the context of the room and the movement of the guard it should be possible
-to understand where the guard is going at all times.
+to understand and predict where the guard is going at all times.
 
 A good example of this is *The Legend of Zelda: Ocarina of Time*.
 
@@ -100,9 +99,9 @@ In this game the guards move in observable patterns, they don't simply move arou
 in a square or circle but rather have a set path that they go for.
 There are some free-roaming guards but for the sake of simplicity, lets not mention these.
 
-Now for the direction they are moving in, *PAYDAY 2* has an extra challenge to it,
+Now, for the direction they are moving in, *PAYDAY 2* has an extra challenge to it,
 it is a First person game.
-Meaning if a guard comes from behind, they have no idea if their spear is pointing forwards.
+Meaning if a guard comes from behind, the player has no idea if their spear is pointing forwards.
 In this case the Swedish game developer decided to use **flashlights** as an alternative.
 Most *PAYDAY 2* stealth maps are in the dark, meaning the light coming from the
 guard is viewable even when not in direct sight of the guard.

@@ -31,7 +31,7 @@ projects: ["stealth-ai"]
 # Dishonored 2
 
 The following document contains the notes I've made while playing Dishonored 2.
-Keep in mind these notes are a rough and just my thoughts while going through the game.
+Keep in mind these notes are just my thoughts while going through the game.
 
 ---
 
@@ -41,14 +41,14 @@ Easy patterns to understand:
 - When alerted they walk in easy straight paths and only alert guards around them.
 
 The city is in constant chaos so death and sounds are not unknown to the area.
-This makes it so when you get alerted by a few guards, it doesn't alert everyone.
+This makes it so when you get spotted by a few guards, it doesn't alert everyone.
 This feels natural and does flow nicely with the gameplay.
 
-Dishonored's powers nearly let you cheat it's own system and it's a satisfying feeling.
-Zooming back and forward using the blink ability to pass by guards in a "do not mind me"
+Dishonored's powers nearly let you cheat its own system and it's a satisfying feeling.
+Zooming back and forward using the blink ability to pass by guards in a "don't mind me"
 style is very satisfying.
 
-The guards give clear vocal queues on when they are alerted and what state they are in.
+The guards give clear vocal queues when they are alerted and about what state they are in.
 The robotic guards are the best example of this.
 They basically execute a text to speach style of command that indicates the state they are in.
 
@@ -67,7 +67,7 @@ Clockwork Soldiers' voice lines
 > "When this plays, search is underway."
 
 This makes it super clear what the robot is doing at any time without asking for
-the player to think and make rough decisions.
+the player to think and make decisions.
 This also doesn't feel out of place as they are robots and the voice that plays
 is the voice from the creator of the robots.
 
