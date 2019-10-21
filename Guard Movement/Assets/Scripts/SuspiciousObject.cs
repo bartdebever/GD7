@@ -5,6 +5,7 @@ using UnityEngine;
 public class SuspiciousObject : MonoBehaviour
 {
     public int AlertLevel;
+    public float TimeToInsepect;
 
     // Start is called before the first frame update
     void Start()

@@ -163,7 +163,7 @@ public class Guard : SimpleStateMachine
             // Inspect the target and decrease or increase the alert.
             if (_currentWaiting >= _waitingTime)
             {
-                ChangeState(null, -15);
+                ChangeState(null);
                 _currentWaiting = 0f;
             }
             else

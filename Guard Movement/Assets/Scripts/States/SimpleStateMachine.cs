@@ -13,9 +13,9 @@ public abstract class SimpleStateMachine : MonoBehaviour
 
     public Dictionary<int, Action<GameObject>> StateActions;
 
-    public void ChangeState(GameObject spottedObject, int alertLevel)
+    public void ChangeState(SuspiciousObject spottedObject)
     {
-        _alertLevel += alertLevel;
+        _alertLevel += spottedObject.AlertLevel;
         if (_alertLevel > _maxAlertLevel)
         {
             _alertLevel = _maxAlertLevel;
@@ -23,7 +23,7 @@ public abstract class SimpleStateMachine : MonoBehaviour
         var closestIndex = GetClosestIndex();
         try
         {
-            StateActions[closestIndex].Invoke(spottedObject);
+            StateActions[closestIndex].Invoke(spottedObject.gameObject);
         }
         catch (ArgumentException)
         {

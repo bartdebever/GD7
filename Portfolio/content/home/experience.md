@@ -23,7 +23,7 @@ date_format = "January 2006"
   company = "Het NIC AP-Discovery"
   company_url = "https://inkoopprojecten.hetnic.nl/home"
   location = "Eindhoven"
-  date_start = "2017-07-01"
+  date_start = "2018-07-01"
   date_end = ""
   description = "Working on .NET web applications"
 

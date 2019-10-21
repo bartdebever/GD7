@@ -107,13 +107,13 @@ to find all the use cases of it within your application.
 
 With this pattern it is also **impossible** for the subscribed methods to return a value.
 
-### Callbacks
+### Observer pattern
 
-While callbacks aren't the most used thing in C#, it is a common practise in other
+While observers aren't the most used thing in C#, it is a common practise in other
 languages like Java. This pattern is very similar to the **Event pattern**, the
 developer has the option to supply a method that will be executed at some point
-in time. Callbacks in software are mostly used to perform actions after another
-is done.
+in time. The Observer pattern is used to create an One to Many relationship where
+there are many observers informed of a change in data.
 
 > When the user clicks the mouse button, perform this action.
 >

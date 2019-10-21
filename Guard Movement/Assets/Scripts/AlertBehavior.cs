@@ -21,6 +21,6 @@ public class AlertBehavior : MonoBehaviour
         }
 
         var guard = this.GetComponentInParent<Guard>();
-        guard.ChangeState(otherCollider.gameObject, suspiciousObject.AlertLevel);
+        guard.ChangeState(suspiciousObject);
     }
 }
