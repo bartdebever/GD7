@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using Assets.Scripts;
 using Assets.Scripts.Guarding;
+using Assets.Scripts.Quickloading;
 using Assets.Scripts.Statistics;
+using UnityEditor;
 using UnityEngine;
 
 [RequireComponent(typeof(AlertBehavior))]
 [RequireComponent(typeof(Rigidbody))]
-public class Guard : SimpleStateMachine
+public class Guard : SimpleStateMachine, ISaveableScript
 {
     [SerializeField] private List<Vector3> _targets = new List<Vector3>();
     [SerializeField] private float _speed = 5f;
@@ -27,6 +29,8 @@ public class Guard : SimpleStateMachine
 
     public void Start()
     {
+        UniqueId = GUID.Generate();
+        QuicksaveStorage.Get.AddScript(this);
         _movementHelper = new MovementHelper(gameObject);
         _rigidbody = GetComponentInParent<Rigidbody>();
         _state = GuardModes.Route;
@@ -204,4 +208,28 @@ public class Guard : SimpleStateMachine
 
         ChangeState(suspiciousObject);
     }
+
+    public Dictionary<string, object> Save()
+    {
+        var saveState = new Dictionary<string, object>();
+
+        saveState.Add("position", gameObject.transform.position);
+        saveState.Add("targetCounter", _targetCounter);
+        saveState.Add("target", _target);
+        saveState.Add("state", _state);
+
+        return saveState;
+    }
+
+    public void Load(Dictionary<string, object> saveState)
+    {
+        gameObject.transform.position = (Vector3) saveState["position"];
+        _targetCounter = (int) saveState["targetCounter"];
+        _target = (Vector3?) saveState["target"];
+        _state = (GuardModes) saveState["state"];
+
+        ToggleSearching();
+    }
+
+    public GUID UniqueId { get; private set; }
 }

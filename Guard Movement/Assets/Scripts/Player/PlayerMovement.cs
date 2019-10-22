@@ -3,9 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Assets.Scripts;
+using Assets.Scripts.Quickloading;
+using UnityEditor;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : MonoBehaviour, ISaveableScript
 {
     /// <summary>
     /// The speed at which the character moves.
@@ -25,6 +27,8 @@ public class PlayerMovement : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
+        UniqueId = GUID.Generate();
+        QuicksaveStorage.Get.AddScript(this);
         _rigidbody = GetComponent<Rigidbody>();
     }
 
@@ -81,4 +85,23 @@ public class PlayerMovement : MonoBehaviour
 
         _rigidbody.AddForce(force);
     }
+
+    public Dictionary<string, object> Save()
+    {
+        var saveState = new Dictionary<string, object>
+        {
+            {"position", gameObject.transform.position}
+        };
+
+
+        return saveState;
+    }
+
+    public void Load(Dictionary<string, object> saveState)
+    {
+        gameObject.transform.position = (Vector3) saveState["position"];
+        _rigidbody.velocity = new Vector3();
+    }
+
+    public GUID UniqueId { get; private set; }
 }
