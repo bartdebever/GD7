@@ -14,6 +14,7 @@ public class Guard : SimpleStateMachine
     [SerializeField] private float _waitingTime = 0;
 
     private readonly Dictionary<GameObject, Vector3> _spottedObjects = new Dictionary<GameObject, Vector3>();
+    private MovementHelper _movementHelper;
     private Rigidbody _rigidbody = null;
     private GameObject _overrideTarget = null;
 
@@ -25,6 +26,7 @@ public class Guard : SimpleStateMachine
 
     public void Start()
     {
+        _movementHelper = new MovementHelper(gameObject);
         _rigidbody = GetComponentInParent<Rigidbody>();
         _state = GuardModes.Route;
 
@@ -32,13 +34,13 @@ public class Guard : SimpleStateMachine
         {
             {0, (spottedObject) =>
             {
-                ToggleSearching(true);
+                ToggleSearching();
                 _overrideTarget = null;
                 _state = GuardModes.Route;
             }},
             {20, (spottedObject) =>
             {
-                ToggleSearching(false);
+                ToggleSearching();
 
                 // If the dictionary already contains the object found, update it's position in the list.
                 if (_spottedObjects.ContainsKey(spottedObject))
@@ -85,11 +87,12 @@ public class Guard : SimpleStateMachine
     public void GetInformed(GameObject toInspectLocation)
     {
         _overrideTarget = toInspectLocation;
+        _state = GuardModes.Searching;
 
-        ToggleSearching(false);
+        ToggleSearching();
     }
 
-    public void OnDrawGizmos()
+    private void OnDrawGizmos()
     {
         if (_target == null)
         {
@@ -99,10 +102,10 @@ public class Guard : SimpleStateMachine
         Gizmos.DrawWireSphere(_target.Value, 2f);
     }
 
-    private void ToggleSearching(bool state)
+    private void ToggleSearching()
     {
         var detectionScript = this.GetComponentInChildren<AlertBehavior>();
-        detectionScript.Detecting = state;
+        detectionScript.Detecting = _state != GuardModes.Searching;
     }
 
     private void ExecuteBasicMovement()
@@ -114,9 +117,9 @@ public class Guard : SimpleStateMachine
         }
 
         // Currently not at the target move towards it.
-        if (_target.HasValue && MovementHelper.IsNotInRange(gameObject, _target.Value, 0.3f))
+        if (_target.HasValue && _movementHelper.IsNotInRange(_target.Value, 0.3f))
         {
-            MovementHelper.Move(_rigidbody, _target.Value, _speed);
+            _movementHelper.Move(_rigidbody, _target.Value, _speed);
         }
         else
         {
@@ -148,22 +151,36 @@ public class Guard : SimpleStateMachine
 
     private void ChaseTarget()
     {
+        // If there is no override target, there is no chase going on.
+        // Execute the basic movement and stop the execution of this method.
         if (_overrideTarget == null)
         {
             ExecuteBasicMovement();
             return;
         }
 
-        if (MovementHelper.IsNotInRange(gameObject, _overrideTarget.transform.position, 5f))
+        // If we aren't next to the target.
+        if (_movementHelper.IsNotInRange(_overrideTarget.transform.position, 5f))
         {
-            MovementHelper.Move(_rigidbody, _overrideTarget.transform.position, 7f);
+            // If it is not within the max distance of the guards "vision"
+            if (_movementHelper.IsNotInRange(_overrideTarget.transform.position, 20f))
+            {
+                // Stop chasing the target and go back to the normal route.
+                _overrideTarget = null;
+                _state = GuardModes.Route;
+                ChangeState(0);
+                return;
+            }
+
+            // Move towards the target.
+            _movementHelper.Move(_rigidbody, _overrideTarget.transform.position, 7f);
         }
         else
         {
             // Inspect the target and decrease or increase the alert.
             if (_currentWaiting >= _waitingTime)
             {
-                ChangeState(null);
+                HandleSuspiciousTarget();
                 _currentWaiting = 0f;
             }
             else
@@ -172,5 +189,16 @@ public class Guard : SimpleStateMachine
             }
             
         }
+    }
+
+    private void HandleSuspiciousTarget()
+    {
+        var suspiciousObject = _overrideTarget.GetComponent<SuspiciousObject>();
+        suspiciousObject.AlertLevel = -suspiciousObject.AlertLevel;
+
+        Destroy(_overrideTarget);
+        _overrideTarget = null;
+
+        ChangeState(suspiciousObject);
     }
 }

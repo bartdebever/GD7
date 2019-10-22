@@ -7,9 +7,15 @@ using UnityEngine;
 
 namespace Assets.Scripts
 {
-    public static class MovementHelper
+    public class MovementHelper
     {
-        public static void Move(Rigidbody origin, Vector3 toMoveTo, float speed)
+        private readonly GameObject _origin;
+        public MovementHelper(GameObject origin)
+        {
+            _origin = origin;
+        }
+
+        public void Move(Rigidbody origin, Vector3 toMoveTo, float speed)
         {
             // There must be a better way to do this but this is testing code so who cares.
             var movePosition = origin.transform.position;
@@ -22,13 +28,23 @@ namespace Assets.Scripts
             origin.transform.LookAt(toMoveTo);
         }
 
-        public static bool IsNotInRange(GameObject origin, Vector3 target, float maxDistance)
+        public bool IsInRange(Vector3 target, float maxDistance)
         {
-            var originPosition = origin.transform.position;
+            return GetDistance(target) <= maxDistance;
+        }
+
+        public float GetDistance(Vector3 target)
+        {
+            var originPosition = _origin.transform.position;
 
             // Fake the y position
             target.y = originPosition.y;
-            return Vector3.Distance(originPosition, target) > maxDistance;
+            return Vector3.Distance(originPosition, target);
+        }
+
+        public bool IsNotInRange(Vector3 target, float maxDistance)
+        {
+            return GetDistance(target) > maxDistance;
         }
     }
 }

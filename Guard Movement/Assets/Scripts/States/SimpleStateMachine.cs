@@ -13,8 +13,29 @@ public abstract class SimpleStateMachine : MonoBehaviour
 
     public Dictionary<int, Action<GameObject>> StateActions;
 
+    protected void ChangeState(int state)
+    {
+        _alertLevel = state;
+
+        if (_alertLevel > _maxAlertLevel)
+        {
+            _alertLevel = _maxAlertLevel;
+        }
+        else if (_alertLevel < 0)
+        {
+            _alertLevel = 0;
+        }
+    }
+
     public void ChangeState(SuspiciousObject spottedObject)
     {
+        if (spottedObject == null)
+        {
+            _alertLevel = 0;
+
+            return;
+        }
+
         _alertLevel += spottedObject.AlertLevel;
         if (_alertLevel > _maxAlertLevel)
         {

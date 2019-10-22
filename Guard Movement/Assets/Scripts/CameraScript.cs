@@ -8,7 +8,7 @@ public class CameraScript : MonoBehaviour
 {
     public GameObject ParentObject;
     private bool _introMove = true;
-
+    private MovementHelper _movementHelper;
     private Rigidbody _rigidbody;
 
     /// <summary>
@@ -19,6 +19,7 @@ public class CameraScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        _movementHelper = new MovementHelper(gameObject);
         _rigidbody = GetComponent<Rigidbody>();
 
         if (!DoIntro)
@@ -36,10 +37,10 @@ public class CameraScript : MonoBehaviour
         }
 
         // Check if the camera is not in the provided range of an object.
-        if (MovementHelper.IsNotInRange(gameObject, ParentObject.gameObject.transform.position, 1f))
+        if (_movementHelper.IsNotInRange(ParentObject.gameObject.transform.position, 1f))
         {
             // If not, move the camera to that object.
-            MovementHelper.Move(_rigidbody, ParentObject.gameObject.transform.position, 10f);
+            _movementHelper.Move(_rigidbody, ParentObject.gameObject.transform.position, 10f);
         }
         else
         {
@@ -77,6 +78,10 @@ public class CameraScript : MonoBehaviour
         // Destroy the rigidbody component as it will hinder the camera from moving
         // with the player.
         Destroy(_rigidbody);
+
+        // This class isn't needed anymore, lets save memory.
+        _movementHelper = null;
+
         Game.IsPaused = false;
     }
 }

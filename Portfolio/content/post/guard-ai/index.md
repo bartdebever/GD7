@@ -138,28 +138,27 @@ alerting other guards, would it be through an alarm or the gun making noises.
 
 A guard must have distinct characteristics and must not randomly change these.
 If we take *Thief (remastered)* as an example. It is explained that hiding
-in the shadows makes you be able to be safe from the vision from guards.
+in the shadows makes you be able to be safe from guards.
 You even get an indicator if you are able to be seen or better said how
 **immersed** in the darkness you are. If a guard would randomly see you in the
 dark and call you out, the player would feel cheated.
-This can be used as a story point and would be interesting as one but this is not
-the point of this document.
+These kind of mechanics can be easily used as a story element.
 
-If the player can not understand the guard's actions and can not predict the guard
-he might turn to brute forcing or playing too carefully.
-There is a need to force the correct playstyle to the player and give the player
+If the player can not understand the guard's actions and can not predict the guard,
+the player might turn to brute forcing a solution or playing too careful.
+There is a need to allow the correct playstyle to the player and give the player
 safe moments and moments of fear in going around the guards.
-This is relevant to the AI, if an arm from the player has been spotted not all of
+This is relevant to the AI, if an arm from the player has been spotted, not all of
 the AIs should instantly move towards their position.
 
 There is the need for an **alert level** like seen in games like *Metal Gear Solid*.
-Guards should feel the need to investigate sounds and visions when they are a
+Guards should feel the need to investigate sounds and spotted objects when they are a
 little bit on alert but the entire army should only be sent after you when the
 alert level is high enough.
 
 *Metal Gear Solid V: The Phantom Pain* does this in a immersive way, the alert
 levels get called out over the radio. Along with this, the actions taken are also called out.
-This makes it some, while the player still feels a rush of panic, the player
+This makes it so while the player still feels a rush of panic, the player
 feels in full control of the situation and gets the situation displayed in an
 in-world method.
 
@@ -167,28 +166,28 @@ in-world method.
 
 In the end of the day, people play video games for fun and satisfaction.
 That last point is where guard AI should help out.
-It should be satisfying for a person to pass the guards in question.
+It should be satisfying for a player to pass the guards in question.
 Basically saying, a heated situation should not resolve itself automatically.
 
 In my personal experience and opinion, having an automatic failure when
 the player gets detected is a bad experience.
 For it to be done well, the checkpoints within the level should be indicated well
-and be frequent enough based on for example difficulty.
+and be frequent enough based on, for example, difficulty.
 
 A bad example of this is *The Legend of Zelda: Breath of the Wild* and *Metal Gear Rising: Revengance*.
 
 ![BotW stealth section](attachments/botwstealth.jpeg)
 
-While I both love these titles, the stealth sections are a pain.
-The player is basically forced to do these sections in one go within a game that
+While I love both of these titles, the stealth sections are a pain.
+The player is forced to do these sections in one go within a game that
 does not have stealth as its core mechanic. Meaning if you do not understand
-the guard, you will have a bad experience and feel frustrated.
+the guard, you might have a bad experience and feel frustrated.
 
 Another game that implements stealth as a gimmick is *Astral Chain*.
 This is (at the time of writing) the latest spectical fighter released by Platinum Games.
 (For reference, these are the same develop as *Metal Gear Rising*).
 In this game there is a stealth section that last for about 10-15 minutes.
-It is no that well made as at this point it could be difficult to control your
+At this point it could be difficult to control your
 character in a stealthy way, crouch is the same was as sprint, to summon your
 helper you press the attack button. Yet this stealth experience is redeemed by the
 checkpoint system. With every minor step that you continue, there is a checkpoint.
@@ -199,30 +198,35 @@ experience is delivered in such a way that it feels good and non-frustrating.
 
 ## Designing challenges
 
-This chapter will descript the design challenges that will be faced when designing
-this AI and game.
+This chapter will describe the design challenges that will be faced when designing
+this project.
 
 ### Alert level and resolving the situation
 
 If we look at games that implement an alert level like *Metal Gear Solid*, *GTA* and *Hitman*.
-These systems either go for slow decay of the alert or an instant switch.
+These games either go for slow decay of the alert or an instant switch.
 It takes time for the guards to "forget" about you and move on with their life.
-Even if *GTA* isn't a stealth game, its not natural for the police to just give
+Even if *GTA* isn't a stealth game, it's not natural for the police to just give
 up a chase or stop searching but it makes the gameplay fun and rewarding.
 
 In stealth games this can work in a different way, camping.
+The player will stay in the exact same corner for a period of time and wait until
+the guards all move away. While sometimes being exciting, if this is the only activity
+that the player can do, it will become boring.
+
+Solutions to this issue are already thought out and implemented.
 Lets look at *GTA 4* against a game like *Hitman*. In *GTA 4* there is a detection
 circle.
 
 ![Wanted level circle GTA 4](attachments/Radar-GTA4-wanted.png)
 
-This is basically the scene of the crime and exiting this will result
+This is the scene of the crime and exiting this will result
 in your *wanted level* (alert level) getting removed after a period of time.
-This circle encourages the player to quickly move and make
-potentially violent actions. This is exactly what the game wants.
+This circle encourages the player to move quickly and make
+potentially violent actions. This is exactly what the designers wanted.
 
 Now compare this to most stealth games, if your alert level drops slowly.
-The default tactic is (kill), run and hide, most often there is
+The default tactic is (kill), run or hide. Most often there is
 something like a container or locker that the player can hide in.
 
 ![Hiding in a container](attachments/hideincontainer.png)
@@ -235,22 +239,23 @@ the action and sitting still.
 I want to solve the action killing by making lowering an alert level
 interesting, fun and intuitive.
 
-The first idea is come to mind is a *Prototype 2* or *PAYDAY 2* system.
+The first idea to come to mind is a *Prototype 2* or *PAYDAY 2* system.
 When the guard is killed or alerted, the player can pretend to be the guard
-but can only fool the operator a set number of time (difficulty).
+but can only fool the operator a set number of time (depending on the difficulty).
 
-In *PAYDAY2* this is the pager system, when a guard is killed, made surrender or
-knocked out, the player must answer the pager in time and give an excuse.
+In *PAYDAY2* this is the pager system. When a guard is killed or forced to surrender,
+the player must answer the pager in time and give an excuse.
 There are a few issues with this:
 
 - A stealth kill ALWAYS results in a pager, this means the guard always presses
 the pager just before he/she gets killed, unrealistic.
 - The voice of the person is obviously the same each time with a little bit of
 a higher or lower pitch, unrealistic.
+- While an interesting mechanic, it's not more than hold the E key to get out of the situation.
 
 However this mechanic could be combined with another game, *Prototype 2*.
 In this game to get out of detection, you will need to consume a NPC and wear
-his skin as a disguise.
+his skin and clothes as a disguise.
 
 ![Prototype 2 disguise](attachments/prototype2disguise.jpg)
 
