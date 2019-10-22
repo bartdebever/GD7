@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Assets.Scripts;
 using Assets.Scripts.Guarding;
+using Assets.Scripts.Statistics;
 using UnityEngine;
 
 [RequireComponent(typeof(AlertBehavior))]
@@ -15,8 +16,8 @@ public class Guard : SimpleStateMachine
 
     private readonly Dictionary<GameObject, Vector3> _spottedObjects = new Dictionary<GameObject, Vector3>();
     private MovementHelper _movementHelper;
-    private Rigidbody _rigidbody = null;
-    private GameObject _overrideTarget = null;
+    private Rigidbody _rigidbody;
+    private GameObject _overrideTarget;
 
     private float _currentWaiting;
     private int _targetCounter;
@@ -32,23 +33,25 @@ public class Guard : SimpleStateMachine
 
         StateActions = new Dictionary<int, Action<GameObject>>()
         {
-            {0, (spottedObject) =>
+            {GuardVariables.MinimumAlert, (spottedObject) =>
             {
                 ToggleSearching();
                 _overrideTarget = null;
                 _state = GuardModes.Route;
             }},
-            {20, (spottedObject) =>
+            {GuardVariables.MaximumAlert, (spottedObject) =>
             {
                 ToggleSearching();
 
                 // If the dictionary already contains the object found, update it's position in the list.
                 if (_spottedObjects.ContainsKey(spottedObject))
                 {
+                    // Update the objects position with a new position.
                     _spottedObjects[spottedObject] = spottedObject.transform.position;
                 }
                 else
                 {
+                    // Add the object to the dictionary.
                     _spottedObjects.Add(spottedObject, spottedObject.transform.position);
                 }
 
@@ -168,7 +171,7 @@ public class Guard : SimpleStateMachine
                 // Stop chasing the target and go back to the normal route.
                 _overrideTarget = null;
                 _state = GuardModes.Route;
-                ChangeState(0);
+                ChangeState(GuardVariables.MinimumAlert);
                 return;
             }
 

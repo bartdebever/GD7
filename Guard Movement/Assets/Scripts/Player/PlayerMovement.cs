@@ -7,73 +7,55 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    /// <summary>
+    /// The speed at which the character moves.
+    /// </summary>
     public float Speed;
 
+    /// <summary>
+    /// Reference to the Rigidbody, used more often to move the player.
+    /// </summary>
     private Rigidbody _rigidbody;
 
-    private Dictionary<KeyCode, Action> _actions;
-
-    // The force that was applied before the player was paused.
-    private Vector3? _pausedForce;
-
-    [SerializeField]
-    private float _interactRadius = 2.5f;
+    /// <summary>
+    /// The velocity that was applied before the player was paused.
+    /// </summary>
+    private Vector3? _pausedVelocity;
 
     // Start is called before the first frame update
     private void Start()
     {
-        Game.PlayerObject = gameObject;
-
         _rigidbody = GetComponent<Rigidbody>();
-        _actions = new Dictionary<KeyCode, Action>
-        {
-            {KeyCode.E, StealObjects}
-        };
     }
 
     // Update is called once per frame
     private void FixedUpdate()
     {
-        if (Game.IsPaused && _pausedForce.HasValue)
+        // If the game is paused and the velocity is already saved, stop this method.
+        if (Game.IsPaused && _pausedVelocity.HasValue)
         {
             return;
         }
+        // If the game is paused and there is no value stored
+        // Store the velocity currently applied to the player and reset the players
+        // current velocity.
         else if (Game.IsPaused)
         {
-            _pausedForce = _rigidbody.velocity;
+            _pausedVelocity = _rigidbody.velocity;
             _rigidbody.velocity = new Vector3();
         }
-        else if (!Game.IsPaused && _pausedForce.HasValue)
+        else if (!Game.IsPaused && _pausedVelocity.HasValue)
         {
-            _rigidbody.velocity = _pausedForce.Value;
-            _pausedForce = null;
+            _rigidbody.velocity = _pausedVelocity.Value;
+            _pausedVelocity = null;
         }
 
         ExecuteMovement();
-
-        foreach (var keyValuePair in _actions)
-        {
-            if (Input.GetKeyDown(keyValuePair.Key))
-            {
-                keyValuePair.Value.Invoke();
-            }
-        }
     }
 
-    private void StealObjects()
-    {
-        var hitColliders = Physics.OverlapSphere(gameObject.transform.position, _interactRadius);
-
-        var stealableObjects = hitColliders
-            .Where(hitCollider => hitCollider.gameObject.GetComponent<StealableObject>() != null)
-            .Select(hitCollider => hitCollider.GetComponent<StealableObject>());
-
-        foreach (var stealableObject in stealableObjects)
-        {
-            stealableObject.StealObject();
-        }
-    }
-
+    /// <summary>
+    /// Executes the movement for the given key by the player.
+    /// </summary>
     private void ExecuteMovement()
     {
         var force = new Vector3();
