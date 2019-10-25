@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Assets.Scripts;
-using Assets.Scripts.Quickloading;
+using Assets.Scripts.QuickLoading;
 using UnityEditor;
 using UnityEngine;
 
@@ -20,7 +20,7 @@ public class StealableObject : MonoBehaviourExtensions, ISaveableScript
     private void Start()
     {
         UniqueId = GUID.Generate();
-        QuicksaveStorage.Get.AddScript(this);
+        QuickSaveStorage.Get.AddScript(this);
         _movementHelper = new MovementHelper(gameObject);
         _renderer = GetComponent<Renderer>();
         _initialMaterial = _renderer.material;
@@ -28,7 +28,7 @@ public class StealableObject : MonoBehaviourExtensions, ISaveableScript
 
     private void Update()
     {
-        if (Game.IsPaused)
+        if (Game.IsPaused || _isTaken)
         {
             return;
         }
@@ -40,12 +40,14 @@ public class StealableObject : MonoBehaviourExtensions, ISaveableScript
         {
             _renderer.material = HighlightMaterial;
             _isInRange = true;
+            Game.UI.SetBottomText("Press E to steal");
         }
         // Only perform this if the first check fails and the player is in range
         else if (_movementHelper.IsNotInRange(Game.PlayerObject.transform.position, 2.5f) && _isInRange)
         {
             _renderer.material = _initialMaterial;
             _isInRange = false;
+            Game.UI.HideBottom();
         }
     }
 
@@ -59,15 +61,18 @@ public class StealableObject : MonoBehaviourExtensions, ISaveableScript
         var otherRenderer = gameObject.GetComponent<Renderer>();
         otherRenderer.enabled = false;
 
+        Game.UI.HideBottom();
+
         _isTaken = true;
 
     }
 
+    #region QuickSaving
     public Dictionary<string, object> Save()
     {
         var saveState = new Dictionary<string, object>
         {
-            ["taken"] = _isTaken
+            [nameof(_isTaken)] = _isTaken
         };
 
         return saveState;
@@ -75,10 +80,11 @@ public class StealableObject : MonoBehaviourExtensions, ISaveableScript
 
     public void Load(Dictionary<string, object> saveState)
     {
-        _isTaken = (bool) saveState["taken"];
+        _isTaken = (bool)saveState[nameof(_isTaken)];
         var otherRenderer = gameObject.GetComponent<Renderer>();
         otherRenderer.enabled = !_isTaken;
     }
 
     public GUID UniqueId { get; private set; }
+    #endregion
 }

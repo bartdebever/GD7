@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Assets.Scripts;
 using Assets.Scripts.Guarding;
-using Assets.Scripts.Quickloading;
+using Assets.Scripts.QuickLoading;
 using Assets.Scripts.Statistics;
 using UnityEditor;
 using UnityEngine;
@@ -30,7 +30,7 @@ public class Guard : SimpleStateMachine, ISaveableScript
     public void Start()
     {
         UniqueId = GUID.Generate();
-        QuicksaveStorage.Get.AddScript(this);
+        QuickSaveStorage.Get.AddScript(this);
         _movementHelper = new MovementHelper(gameObject);
         _rigidbody = GetComponentInParent<Rigidbody>();
         _state = GuardModes.Route;

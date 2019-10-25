@@ -2,10 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using Assets.Scripts;
-using Assets.Scripts.Quickloading;
+using Assets.Scripts.QuickLoading;
 using UnityEditor;
 using UnityEngine;
+using Vector3 = UnityEngine.Vector3;
 
 public class PlayerMovement : MonoBehaviour, ISaveableScript
 {
@@ -28,7 +30,7 @@ public class PlayerMovement : MonoBehaviour, ISaveableScript
     private void Start()
     {
         UniqueId = GUID.Generate();
-        QuicksaveStorage.Get.AddScript(this);
+        QuickSaveStorage.Get.AddScript(this);
         _rigidbody = GetComponent<Rigidbody>();
     }
 
@@ -57,6 +59,27 @@ public class PlayerMovement : MonoBehaviour, ISaveableScript
         ExecuteMovement();
     }
 
+    #region QuickSaving
+    public Dictionary<string, object> Save()
+    {
+        var saveState = new Dictionary<string, object>
+        {
+            {"position", gameObject.transform.position}
+        };
+
+
+        return saveState;
+    }
+
+    public void Load(Dictionary<string, object> saveState)
+    {
+        gameObject.transform.position = (Vector3)saveState["position"];
+        _rigidbody.velocity = new Vector3();
+    }
+
+    public GUID UniqueId { get; private set; }
+    #endregion
+
     /// <summary>
     /// Executes the movement for the given key by the player.
     /// </summary>
@@ -83,25 +106,6 @@ public class PlayerMovement : MonoBehaviour, ISaveableScript
             force.z -= Speed;
         }
 
-        _rigidbody.AddForce(force);
+        _rigidbody.AddRelativeForce(force);
     }
-
-    public Dictionary<string, object> Save()
-    {
-        var saveState = new Dictionary<string, object>
-        {
-            {"position", gameObject.transform.position}
-        };
-
-
-        return saveState;
-    }
-
-    public void Load(Dictionary<string, object> saveState)
-    {
-        gameObject.transform.position = (Vector3) saveState["position"];
-        _rigidbody.velocity = new Vector3();
-    }
-
-    public GUID UniqueId { get; private set; }
 }

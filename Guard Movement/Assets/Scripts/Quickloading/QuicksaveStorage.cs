@@ -6,41 +6,102 @@ using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
 
-namespace Assets.Scripts.Quickloading
+namespace Assets.Scripts.QuickLoading
 {
-    public class QuicksaveStorage
+    /// <summary>
+    /// A singleton storage class for saving save states.
+    /// </summary>
+    public class QuickSaveStorage
     {
-        private Dictionary<GUID, Dictionary<string, object>> _saveStates;
-        private Dictionary<GUID, ISaveableScript> _scripts;
+        /// <summary>
+        /// The states gathered from the <see cref="_scripts"/>.
+        /// </summary>
+        private readonly Dictionary<GUID, Dictionary<string, object>> _saveStates;
 
-        private QuicksaveStorage()
+        /// <summary>
+        /// The dictionary where the scripts are saved.
+        /// </summary>
+        private readonly Dictionary<GUID, ISaveableScript> _scripts;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="QuickSaveStorage"/> class.
+        /// </summary>
+        private QuickSaveStorage()
         {
             _scripts = new Dictionary<GUID, ISaveableScript>();
             _saveStates = new Dictionary<GUID, Dictionary<string, object>>();
         }
 
-        public static QuicksaveStorage Get { get; } = new QuicksaveStorage();
+        /// <summary>
+        /// Gets the instance of the <see cref="QuickSaveStorage"/> class.
+        /// </summary>
+        public static QuickSaveStorage Get { get; } = new QuickSaveStorage();
 
+        /// <summary>
+        /// Adds the <paramref name="script"/> to the list of scripts to call.
+        /// </summary>
+        /// <param name="script">
+        /// The script that can be loaded and saved on demand.
+        /// </param>
         public void AddScript(ISaveableScript script)
         {
+            if (script == null)
+            {
+                throw new ArgumentNullException($"{nameof(script)} can not be null.");
+            }
+
+            if (_scripts.ContainsKey(script.UniqueId))
+            {
+                throw new ArgumentException(
+                    $"{nameof(script)}.{nameof(script.UniqueId)} was already used.");
+            }
+
             _scripts.Add(script.UniqueId, script);
         }
 
+        /// <summary>
+        /// Loads the currently stored save states into the entities.
+        /// </summary>
         public void Load()
         {
+            // If the player tries to load a save state while there are none.
+            // Don't bother to do anything.
+            if (_saveStates == null || !_saveStates.Any())
+            {
+                return;
+            }
+
+            // Go over all available save states.
+            // TODO What about entities that spawned in?
             foreach (var saveState in _saveStates)
             {
+                // Find the first script that belongs to this save state.
                 var script = _scripts.First(savedScript => savedScript.Key == saveState.Key);
 
+                // Load the save state.
                 script.Value.Load(saveState.Value);
             }
         }
 
+        /// <summary>
+        /// Saves the data from all entities into the <see cref="_saveStates"/>.
+        /// </summary>
         public void Save()
         {
-            _saveStates = new Dictionary<GUID, Dictionary<string, object>>();
+            // Clear the states that are currently saved.
+            // TODO Save and load multiple saves?
+            _saveStates.Clear();
+
+            // Go over all scripts available
             foreach (var script in _scripts)
             {
+                // If the script has been destroyed or no longer available,
+                // just continue.
+                if (script.Value == null)
+                {
+                    continue;
+                }
+
                 var saveState = script.Value.Save();
 
                 _saveStates.Add(script.Key, saveState);

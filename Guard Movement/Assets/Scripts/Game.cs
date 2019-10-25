@@ -11,6 +11,8 @@ namespace Assets.Scripts
     {
         public static GameObject PlayerObject { get; set; }
 
+        public static UISingleton UI { get; set; }
+
         public static bool IsPaused { get; set; } = true;
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
 
-namespace Assets.Scripts.Quickloading
+namespace Assets.Scripts.QuickLoading
 {
     public class Quicksaver : MonoBehaviour
     {
@@ -14,12 +14,12 @@ namespace Assets.Scripts.Quickloading
         {
             if (Input.anyKeyDown && Input.GetKeyDown(KeyCode.F8))
             {
-                QuicksaveStorage.Get.Save();
+                QuickSaveStorage.Get.Save();
             }
 
             if (Input.anyKeyDown && Input.GetKeyDown(KeyCode.F9))
             {
-                QuicksaveStorage.Get.Load();
+                QuickSaveStorage.Get.Load();
             }
         }
     }

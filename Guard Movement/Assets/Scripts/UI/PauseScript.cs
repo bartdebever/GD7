@@ -11,8 +11,6 @@ public class PauseScript : MonoBehaviour
     /// </summary>
     public KeyCode Key;
 
-    public Image PausePanel;
-
     // Update is called once per frame
     void Update()
     {
@@ -26,6 +24,13 @@ public class PauseScript : MonoBehaviour
         // Pause the game or unpause the game.
         Game.IsPaused = !Game.IsPaused;
 
-        PausePanel.gameObject.SetActive(Game.IsPaused);
+        if (Game.IsPaused)
+        {
+            Game.UI.SetBottomText("Paused");
+        }
+        else
+        {
+            Game.UI.HideBottom();
+        }
     }
 }
