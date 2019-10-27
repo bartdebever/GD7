@@ -5,12 +5,12 @@ using UnityEngine;
 
 public class GuardManager : MonoBehaviour
 {
-    private List<Guard> _guards;
+    private List<CustomGuard> _guards;
     [SerializeField] private int _maxAlertGuards;
 
     public void Start()
     {
-        _guards = GetComponentsInChildren<Guard>().ToList();
+        _guards = GetComponentsInChildren<CustomGuard>().ToList();
     }
 
     public void AlertObject(GameObject objectLocation)

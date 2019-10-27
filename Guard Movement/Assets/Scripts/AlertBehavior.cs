@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Assets.Script.Suspicious;
 using UnityEngine;
 
 public class AlertBehavior : MonoBehaviour
@@ -20,7 +21,7 @@ public class AlertBehavior : MonoBehaviour
             return;
         }
 
-        var guard = this.GetComponentInParent<Guard>();
+        var guard = this.GetComponentInParent<CustomGuard>();
         guard.ChangeState(suspiciousObject);
     }
 }
