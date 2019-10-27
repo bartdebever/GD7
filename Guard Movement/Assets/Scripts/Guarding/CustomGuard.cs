@@ -15,8 +15,6 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class CustomGuard : Guard, ISaveableScript
 {
-    [SerializeField] private List<Vector3> _targets = new List<Vector3>();
-    [SerializeField] private float _speed = 5f;
     [SerializeField] private float _waitingTime = 0;
 
     private readonly Dictionary<GameObject, Vector3> _spottedObjects = new Dictionary<GameObject, Vector3>();
@@ -49,7 +47,7 @@ public class CustomGuard : Guard, ISaveableScript
         switch (_state)
         {
             case GuardModes.Route:
-                ExecuteBasicMovement();
+                MovementHandler.Tick(gameObject);
                 break;
             case GuardModes.Searching:
                 ChaseTarget();
@@ -61,6 +59,8 @@ public class CustomGuard : Guard, ISaveableScript
 
         }
     }
+    
+    #region  Suspicious Target code
 
     public void GetInformed(GameObject toInspectLocation)
     {
@@ -69,71 +69,19 @@ public class CustomGuard : Guard, ISaveableScript
 
         ToggleSearching();
     }
-
-    private void OnDrawGizmos()
-    {
-        if (_target == null)
-        {
-            return;
-        }
-
-        Gizmos.DrawWireSphere(_target.Value, 2f);
-    }
-
+    
     private void ToggleSearching()
     {
         var detectionScript = this.GetComponentInChildren<AlertBehavior>();
         detectionScript.Detecting = _state != GuardModes.Searching;
     }
-
-    private void ExecuteBasicMovement()
-    {
-        if (!_targets.Any())
-        {
-            // If there are no targets, don't execute anything.
-            return;
-        }
-
-        // Currently not at the target move towards it.
-        if (_target.HasValue && _movementHelper.IsNotInRange(_target.Value, 0.3f))
-        {
-            _movementHelper.Move(_rigidbody, _target.Value, _speed);
-        }
-        else
-        {
-            // Set the position to be perfect so we know the same path will be followed.
-            if (_target.HasValue)
-            {
-                _rigidbody.MovePosition(_target.Value);
-            }
-
-            // We are at the target, time to pick the next.
-            _target = null;
-
-            if (_currentWaiting >= _waitingTime)
-            {
-                if (_targetCounter >= _targets.Count)
-                {
-                    _targetCounter = 0;
-                }
-
-                _target = _targets[_targetCounter++];
-                _currentWaiting = 0f;
-            }
-            else
-            {
-                _currentWaiting += Time.deltaTime;
-            }
-        }
-    }
-
+    
     private void ChaseTarget()
     {
         // If there is no override target, there is no chase going on.
         // Execute the basic movement and stop the execution of this method.
         if (_overrideTarget == null)
         {
-            ExecuteBasicMovement();
             return;
         }
 
@@ -181,6 +129,9 @@ public class CustomGuard : Guard, ISaveableScript
         ChangeState(suspiciousObject);
     }
 
+    #endregion
+    
+    #region QuickSave
     public Dictionary<string, object> Save()
     {
         var saveState = new Dictionary<string, object>();
@@ -204,6 +155,10 @@ public class CustomGuard : Guard, ISaveableScript
     }
 
     public GUID UniqueId { get; private set; }
+    #endregion
+
+    #region StateMachineActions
+
     public override Dictionary<float, Action<GameObject>> StateActions => new Dictionary<float, Action<GameObject>>()
     {
         {GuardVariables.MinimumAlert, (spottedObject) =>
@@ -235,4 +190,7 @@ public class CustomGuard : Guard, ISaveableScript
             _state = GuardModes.Searching;
         }}
     };
+
+    #endregion
+
 }
