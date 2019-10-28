@@ -73,7 +73,9 @@ public class CustomGuard : Guard, ISaveableScript
     private void ToggleSearching()
     {
         var detectionScript = this.GetComponentInChildren<AlertBehavior>();
-        detectionScript.Detecting = _state != GuardModes.Searching;
+
+        // If the guard is on a route, it should be trying to detect enemies.
+        detectionScript.Detecting = _state == GuardModes.Route;
     }
     
     private void ChaseTarget()

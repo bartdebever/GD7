@@ -8,9 +8,20 @@ using UnityEngine;
 
 namespace Assets.Scripts.QuickLoading
 {
+    /// <summary>
+    /// Simple MonoBehaviour that allows for entities to be quick saved and
+    /// loaded.
+    /// </summary>
     public class Quicksaver : MonoBehaviour
     {
+        /// <summary>
+        /// The key used to save the current entities.
+        /// </summary>
         public KeyCode saveKey;
+
+        /// <summary>
+        /// The key used to load the current entities.
+        /// </summary>
         public KeyCode loadKey;
         
         private void Update()

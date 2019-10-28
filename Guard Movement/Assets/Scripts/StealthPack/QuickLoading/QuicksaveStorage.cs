@@ -43,6 +43,10 @@ namespace Assets.Scripts.QuickLoading
         /// <param name="script">
         /// The script that can be loaded and saved on demand.
         /// </param>
+        /// <exception cref="ArgumentException">
+        /// When either the <paramref name="script"/> is null or the
+        /// <see cref="ISaveableScript.UniqueId"/> is already found within the dictionary.
+        /// </exception>
         public void AddScript(ISaveableScript script)
         {
             if (script == null)
@@ -79,7 +83,14 @@ namespace Assets.Scripts.QuickLoading
                 var script = _scripts.First(savedScript => savedScript.Key == saveState.Key);
 
                 // Load the save state.
-                script.Value.Load(saveState.Value);
+                try
+                {
+                    script.Value.Load(saveState.Value);
+                }
+                catch (Exception)
+                {
+                    Debug.LogError($"Tried to load a save state but operation failed for entity {saveState.Key}");
+                }
             }
         }
 
@@ -89,7 +100,6 @@ namespace Assets.Scripts.QuickLoading
         public void Save()
         {
             // Clear the states that are currently saved.
-            // TODO Save and load multiple saves?
             _saveStates.Clear();
 
             // Go over all scripts available
@@ -102,9 +112,15 @@ namespace Assets.Scripts.QuickLoading
                     continue;
                 }
 
-                var saveState = script.Value.Save();
-
-                _saveStates.Add(script.Key, saveState);
+                try
+                {
+                    var saveState = script.Value.Save();
+                    _saveStates.Add(script.Key, saveState);
+                }
+                catch
+                {
+                    Debug.LogError($"Tried to add a save state for object {script.Key} but failed.");
+                }
             }
         }
     }

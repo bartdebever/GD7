@@ -9,7 +9,11 @@ using UnityEngine;
 
 public class StealableObject : MonoBehaviourExtensions, ISaveableScript
 {
+    /// <summary>
+    /// The material to highlight the object with to indicate it can be interacted with.
+    /// </summary>
     public Material HighlightMaterial;
+
     private MovementHelper _movementHelper;
     private Material _initialMaterial;
     private Renderer _renderer;
@@ -53,11 +57,14 @@ public class StealableObject : MonoBehaviourExtensions, ISaveableScript
 
     public void StealObject()
     {
+        // If the object is already taken, nothing should be executed.
         if (_isTaken)
         {
             return;
         }
 
+        // Get the render and deactivate it.
+        // This hides the material but still makes it visible.
         var otherRenderer = gameObject.GetComponent<Renderer>();
         otherRenderer.enabled = false;
 

@@ -1,29 +1,40 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Assets.Scripts;
+﻿using Assets.Scripts;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// A singleton that manages the UI.
+/// </summary>
 public class UISingleton : MonoBehaviour
 {
+    /// <summary>
+    /// The bottom panel of the UI.
+    /// </summary>
     public Image BottomPanel;
 
-    private Text BottomPanelText;
+    private Text _bottomPanelText;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         Game.UI = this;
 
-        BottomPanelText = this.BottomPanel.GetComponentInChildren<Text>();
+        _bottomPanelText = this.BottomPanel.GetComponentInChildren<Text>();
     }
 
+    /// <summary>
+    /// Sets the text on the bottom panel to be the provided <paramref name="text"/>.
+    /// Also enables the bottom panel.
+    /// </summary>
+    /// <param name="text">The text to be set.</param>
     public void SetBottomText(string text)
     {
-        BottomPanelText.text = text;
+        _bottomPanelText.text = text;
         BottomPanel.gameObject.SetActive(true);
     }
 
+    /// <summary>
+    /// Hides the bottom panel.
+    /// </summary>
     public void HideBottom()
     {
         BottomPanel.gameObject.SetActive(false);
