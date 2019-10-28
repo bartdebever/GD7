@@ -28,8 +28,6 @@ image:
 projects: ["stealth-ai"]
 ---
 
-# Dishonored 2
-
 The following document contains the notes I've made while playing Dishonored 2.
 Keep in mind these notes are just my thoughts while going through the game.
 

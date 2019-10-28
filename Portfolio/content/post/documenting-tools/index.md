@@ -28,6 +28,11 @@ image:
 projects: []
 ---
 
+To document the asset pack in a way that developers can work with it, a tool is
+needed that is able to generate a static website with documentation.
+This documentation will be custom written.
+The following document will go over the decision of what tool to use.
+
 ## Requirements
 
 To find the correct tool for the job, I've decided to first set requirements.
@@ -81,7 +86,7 @@ Hugo uses their own CLI and runtime.
 
 ReadTheDocs is one of the more older tools used to document tools.
 It features Markdown but it is not the main way of editing text.
-The navigation works in the way of having the sidebar decidated towards sections
+The navigation works in the way of having the sidebar dedicated towards sections
 and subsections. Yet with their documentation I find it to be
 very busy and impractical to use. This tool uses pip and Sphinx, two unfamiliar tools to me.
 
