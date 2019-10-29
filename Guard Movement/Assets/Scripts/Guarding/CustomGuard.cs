@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Assets.Script.Basics;
 using Assets.Script.Guards;
 using Assets.Script.Suspicious;
@@ -15,6 +16,8 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class CustomGuard : Guard, ISaveableScript
 {
+    public Material HightlightMaterial;
+
     [SerializeField] private float _waitingTime = 0;
 
     private readonly Dictionary<GameObject, Vector3> _spottedObjects = new Dictionary<GameObject, Vector3>();
@@ -22,6 +25,8 @@ public class CustomGuard : Guard, ISaveableScript
     private MovementHelper _movementHelper;
     private Rigidbody _rigidbody;
     private GameObject _overrideTarget;
+    private Material _initialMaterial;
+    private Renderer _renderer;
 
     private float _currentWaiting;
     private int _targetCounter;
@@ -37,9 +42,11 @@ public class CustomGuard : Guard, ISaveableScript
         _rigidbody = GetComponentInParent<Rigidbody>();
         _state = GuardModes.Route;
         _alertBehaviors = GetComponentsInChildren<AlertBehavior>();
+        _renderer = GetComponent<Renderer>();
+        _initialMaterial = _renderer.material;
     }
 
-    public void FixedUpdate()
+    private new void FixedUpdate()
     {
         if (Game.IsPaused)
         {
@@ -74,10 +81,15 @@ public class CustomGuard : Guard, ISaveableScript
     
     private void ToggleSearching()
     {
+        var localRenderer = GetComponent<Renderer>();
+        var calmState = _state == GuardModes.Route;
+
+        localRenderer.material = calmState ? _initialMaterial : HightlightMaterial;
+
         foreach (var detectionScript in _alertBehaviors)
         {
             // If the guard is on a route, it should be trying to detect enemies.
-            detectionScript.Detecting = _state == GuardModes.Route;
+            detectionScript.Detecting = calmState;
         }
     }
     

@@ -360,6 +360,7 @@ MonoBehaviour:
   MovementHandler: {fileID: 199804421}
   MovementPattern: {fileID: 199804427}
   DetectionSystem: {fileID: 0}
+  HightlightMaterial: {fileID: 2100000, guid: 4d025eeacdc8985408a5f3ab6862590b, type: 2}
   _waitingTime: 2
 --- !u!114 &199804427
 MonoBehaviour:
@@ -804,6 +805,7 @@ MonoBehaviour:
   MovementHandler: {fileID: 394203594}
   MovementPattern: {fileID: 394203598}
   DetectionSystem: {fileID: 0}
+  HightlightMaterial: {fileID: 2100000, guid: 4d025eeacdc8985408a5f3ab6862590b, type: 2}
   _waitingTime: 2
 --- !u!114 &394203598
 MonoBehaviour:
@@ -1010,7 +1012,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c67f79f31dc799040b3e055f99c0e868, type: 2}
+  - {fileID: 2100000, guid: e5a8ee5529834a84783c276dd87974ac, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

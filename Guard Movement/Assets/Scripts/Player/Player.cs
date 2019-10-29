@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Assets.Scripts;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
@@ -74,5 +75,16 @@ public class Player : MonoBehaviour
         // This stops a lot of systems which might also rely on the player.
         // Most of these systems use Game.PlayerObject
         Game.IsPaused = true;
+
+        Game.UI.SetBottomText("Game over.");
+
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        // TODO Invoke never happens as object already gets destroyed.
+        Invoke(nameof(ReloadScene), 1);
+    }
+
+    private void ReloadScene()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }
