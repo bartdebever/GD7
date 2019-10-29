@@ -12,7 +12,11 @@ public class UISingleton : MonoBehaviour
     /// </summary>
     public Image BottomPanel;
 
+    public Text MoneyText;
+
     private Text _bottomPanelText;
+
+    private int _money;
 
     private void Start()
     {
@@ -28,6 +32,14 @@ public class UISingleton : MonoBehaviour
     /// <param name="text">The text to be set.</param>
     public void SetBottomText(string text)
     {
+        // Unity editor tried to set this text when closing.
+        // Unsure where the call came from but error checking is not terrible.
+        if (_bottomPanelText == null)
+        {
+            Debug.LogError("Tried to set bottom text when no text was found.");
+            return;
+        }
+
         _bottomPanelText.text = text;
         BottomPanel.gameObject.SetActive(true);
     }
@@ -38,5 +50,12 @@ public class UISingleton : MonoBehaviour
     public void HideBottom()
     {
         BottomPanel.gameObject.SetActive(false);
+    }
+
+    public void IncreaseMoney(int amount)
+    {
+        _money += amount;
+
+        MoneyText.text = $"$ {_money}";
     }
 }

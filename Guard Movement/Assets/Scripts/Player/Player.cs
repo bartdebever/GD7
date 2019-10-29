@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Assets.Scripts;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -91,7 +92,7 @@ public class Player : MonoBehaviour
     }
 
     private void OnDestroy()
-    {
+    { 
         // Prevent a bug when on closing the Unity editor the Player would
         // get destroyed and trigger this script.
         if (BackupCamera == null || BackupCamera.gameObject == null)

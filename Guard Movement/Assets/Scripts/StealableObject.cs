@@ -14,6 +14,8 @@ public class StealableObject : MonoBehaviourExtensions, ISaveableScript
     /// </summary>
     public Material HighlightMaterial;
 
+    public int Earnings;
+
     private MovementHelper _movementHelper;
     private Material _initialMaterial;
     private Renderer _renderer;
