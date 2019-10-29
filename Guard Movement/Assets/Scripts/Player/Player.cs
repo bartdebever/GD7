@@ -9,6 +9,7 @@ using UnityEngine.SceneManagement;
 public class Player : MonoBehaviour
 {
     public Camera BackupCamera;
+    public GameObject CarryingObject;
 
     /// <summary>
     /// The actions that can be performed by the player
@@ -22,6 +23,8 @@ public class Player : MonoBehaviour
     [SerializeField]
     private float _interactRadius = 2.5f;
 
+    private StealableObject _carryingObject;
+
     // Start is called before the first frame update
     private void Start()
     {
@@ -29,8 +32,27 @@ public class Player : MonoBehaviour
 
         _actions = new Dictionary<KeyCode, Action>
         {
-            {KeyCode.E, StealObjects}
+            {KeyCode.E, StealObjects},
+            {KeyCode.F, DeliverObject }
         };
+    }
+
+    private void DeliverObject()
+    {
+        // Player is not carrying anything, no need to do anything.
+        if (_carryingObject == null)
+        {
+            return;
+        }
+
+        var deliverySystem = FindComponentInRange<DeliverySystem>();
+
+        if (deliverySystem.ReceiveItem(_carryingObject))
+        {
+            _carryingObject = null;
+        }
+
+        CarryingObject.SetActive(false);
     }
 
     private void Update()
@@ -46,16 +68,26 @@ public class Player : MonoBehaviour
 
     private void StealObjects()
     {
-        var hitColliders = Physics.OverlapSphere(gameObject.transform.position, _interactRadius);
-
-        var stealableObjects = hitColliders
-            .Where(hitCollider => hitCollider.gameObject.GetComponent<StealableObject>() != null)
-            .Select(hitCollider => hitCollider.GetComponent<StealableObject>());
-
-        foreach (var stealableObject in stealableObjects)
+        // If the player is carrying an object, they should not be able to pick
+        // up another object.
+        if (_carryingObject != null)
         {
-            stealableObject.StealObject();
+            return;
         }
+
+        var stealableObject = FindComponentInRange<StealableObject>();
+        
+        // No object found, return.
+        if (stealableObject == null)
+        {
+            return;
+        }
+
+        stealableObject.StealObject();
+
+        _carryingObject = stealableObject;
+
+        CarryingObject.SetActive(true);
     }
 
     private void OnDestroy()
@@ -78,13 +110,31 @@ public class Player : MonoBehaviour
 
         Game.UI.SetBottomText("Game over.");
 
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         // TODO Invoke never happens as object already gets destroyed.
         Invoke(nameof(ReloadScene), 1);
     }
 
     private void ReloadScene()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    /// <summary>
+    /// Finds the first object within the sphere collider of type <typeparamref name="TComponent"/>.
+    /// </summary>
+    /// <typeparam name="TComponent">
+    /// The type of component to be found.
+    /// </typeparam>
+    /// <returns>The found component or null.</returns>
+    private TComponent FindComponentInRange<TComponent>()
+        where TComponent : MonoBehaviour
+    {
+        var hitColliders = Physics.OverlapSphere(gameObject.transform.position, _interactRadius);
+
+        return hitColliders
+            .Where(hitCollider => hitCollider.gameObject.GetComponent<TComponent>() != null)
+            .Select(hitCollider => hitCollider.GetComponent<TComponent>())
+            .FirstOrDefault();
     }
 }
