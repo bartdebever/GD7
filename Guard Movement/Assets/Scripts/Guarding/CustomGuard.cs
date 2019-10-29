@@ -18,6 +18,7 @@ public class CustomGuard : Guard, ISaveableScript
     [SerializeField] private float _waitingTime = 0;
 
     private readonly Dictionary<GameObject, Vector3> _spottedObjects = new Dictionary<GameObject, Vector3>();
+    private IEnumerable<AlertBehavior> _alertBehaviors;
     private MovementHelper _movementHelper;
     private Rigidbody _rigidbody;
     private GameObject _overrideTarget;
@@ -35,6 +36,7 @@ public class CustomGuard : Guard, ISaveableScript
         _movementHelper = new MovementHelper(gameObject);
         _rigidbody = GetComponentInParent<Rigidbody>();
         _state = GuardModes.Route;
+        _alertBehaviors = GetComponentsInChildren<AlertBehavior>();
     }
 
     public void FixedUpdate()
@@ -72,10 +74,11 @@ public class CustomGuard : Guard, ISaveableScript
     
     private void ToggleSearching()
     {
-        var detectionScript = this.GetComponentInChildren<AlertBehavior>();
-
-        // If the guard is on a route, it should be trying to detect enemies.
-        detectionScript.Detecting = _state == GuardModes.Route;
+        foreach (var detectionScript in _alertBehaviors)
+        {
+            // If the guard is on a route, it should be trying to detect enemies.
+            detectionScript.Detecting = _state == GuardModes.Route;
+        }
     }
     
     private void ChaseTarget()
@@ -123,6 +126,7 @@ public class CustomGuard : Guard, ISaveableScript
     private void HandleSuspiciousTarget()
     {
         var suspiciousObject = _overrideTarget.GetComponent<SuspiciousObject>();
+
         suspiciousObject.AlertIncrease = -suspiciousObject.AlertIncrease;
 
         Destroy(_overrideTarget);

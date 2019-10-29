@@ -58,12 +58,14 @@ public class CameraScript : MonoBehaviour
         // Set the position of the camera to be exactly right.
         var position = gameObject.transform.position;
         position.x = ParentObject.gameObject.transform.position.x;
-        position.z = ParentObject.gameObject.transform.position.z-20;
+        position.z = ParentObject.gameObject.transform.position.z;
 
         gameObject.transform.position = position;
 
         // Sets the variable to do the movement sequence to false.
         _introMove = false;
+
+        transform.LookAt(ParentObject.gameObject.transform);
 
         // The camera will move towards the player and rotate to get there.
         // When the game actually starts, this rotation should not be there anymore.
