@@ -68,6 +68,11 @@ namespace Assets.Script.Basics
 
         protected void OnDrawGizmos()
         {
+            if (!DrawGizmos)
+            {
+                return;
+            }
+
             Gizmos.color = Color.yellow;
             foreach (var position in Pattern)
             {
