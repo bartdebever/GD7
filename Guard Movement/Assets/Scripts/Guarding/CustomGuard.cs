@@ -100,6 +100,9 @@ public class CustomGuard : Guard, ISaveableScript
 
         localRenderer.material = calmState ? _initialMaterial : HightlightMaterial;
 
+        _navMeshAgent.speed = calmState ? 5 : 10;
+        _navMeshAgent.acceleration = calmState ? 8 : 15;
+
         foreach (var detectionScript in _alertBehaviors)
         {
             // If the guard is on a route, it should be trying to detect enemies.
@@ -216,7 +219,7 @@ public class CustomGuard : Guard, ISaveableScript
         }},
         {GuardVariables.MaximumAlert, (spottedObject) =>
         {
-            ToggleSearching();
+           
 
             // If the dictionary already contains the object found, update it's position in the list.
             if (_spottedObjects.ContainsKey(spottedObject))
@@ -235,6 +238,7 @@ public class CustomGuard : Guard, ISaveableScript
 
             _overrideTarget = spottedObject;
             _state = GuardModes.Searching;
+            ToggleSearching();
         }}
     };
 

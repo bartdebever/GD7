@@ -8,6 +8,8 @@ public class AlertBehavior : MonoBehaviour
     [SerializeField]
     public bool Detecting { get; set; } = true;
 
+    public bool DrawRay;
+
     public void OnTriggerEnter(Collider otherCollider)
     {
         if (!Detecting)
@@ -23,19 +25,31 @@ public class AlertBehavior : MonoBehaviour
 
         var guard = this.GetComponentInParent<CustomGuard>();
 
-        var target = suspiciousObject.gameObject.transform.position;
-        var origin = transform.parent.position - target;
+        // Set up the target and origin for the raycast.
+        // The raycast goes from the player to the guard because that works
+        // and the other way around it doesn't. No clue why.
+        var origin = suspiciousObject.gameObject.transform.position;
 
-        Physics.Raycast(target, origin, out var keyCastOut);
+        // Subtracting the origin from the target will provide the direction
+        // to shoot the raycast in.
+        var target = transform.parent.position - origin;
 
+        // Raycast from the origin towards the target.
+        Physics.Raycast(origin, target, out var keyCastOut);
+
+        // If nothing was hit, no action is required.
         if (keyCastOut.transform == null)
         {
             return;
         }
 
-        Debug.Log(keyCastOut.transform.gameObject);
-        Debug.DrawRay(target, origin, Color.cyan, 2f);
+        if (DrawRay)
+        {
+            Debug.DrawRay(origin, target, Color.cyan, 2f);
+        }
 
+        // If something is hit, check if it's the guard.
+        // If it is, alert the guard, if not do nothing. 
         if (keyCastOut.transform.gameObject == guard.gameObject)
         {
             guard.ChangeState(suspiciousObject);

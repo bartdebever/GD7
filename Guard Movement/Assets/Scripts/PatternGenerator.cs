@@ -6,6 +6,13 @@ using UnityEngine;
 public class PatternGenerator : MonoBehaviour
 {
     public List<GameObject> PlayFields;
+    private List<BoxCollider> _obstacles;
+
+    private void Start()
+    {
+        _obstacles = GetComponentsInChildren<BoxCollider>().ToList();
+        Debug.Log(_obstacles.Count);
+    }
 
     public IEnumerable<Vector3> GeneratePattern(Vector3 origin)
     {
@@ -23,15 +30,29 @@ public class PatternGenerator : MonoBehaviour
         positionList[2] = new Vector3(maxX, origin.y, maxZ);
         positionList[3] = new Vector3(maxX, origin.y, minZ);
 
+
+        var finalList = new List<Vector3>();
         foreach (var vector3 in positionList)
         {
             if (!IsInBounds(vector3))
             {
-                return null;
+                continue;
             }
+
+            if (IsInObstacle(vector3))
+            {
+                continue;
+            }
+
+            finalList.Add(vector3);
         }
 
-        return positionList;
+        return finalList;
+    }
+
+    private bool IsInObstacle(Vector3 point)
+    {
+        return _obstacles.Any(meshCollider => meshCollider.bounds.Contains(point));
     }
 
     private bool IsInBounds(Vector3 point)
