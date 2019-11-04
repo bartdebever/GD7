@@ -1,6 +1,5 @@
 ﻿using Assets.Script.Basics;
 using Assets.Script.MonoBehaviourExtensions;
-using UnityEngine;
 
 namespace Assets.Script.Guards
 {

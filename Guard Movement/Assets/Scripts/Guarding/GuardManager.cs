@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -21,7 +20,6 @@ public class GuardManager : MonoBehaviour
 
         foreach (var guard in guardsToAlert)
         {
-            continue;
             guard.GetInformed(objectLocation);
         }
     }

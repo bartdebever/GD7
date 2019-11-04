@@ -54,6 +54,10 @@ public class UISingleton : MonoBehaviour
         BottomPanel.gameObject.SetActive(false);
     }
 
+    /// <summary>
+    /// Increases the amount of money the player has and updates the UI for it.
+    /// </summary>
+    /// <param name="amount">The amount it should increase with.</param>
     public void IncreaseMoney(int amount)
     {
         _money += amount;
@@ -61,6 +65,10 @@ public class UISingleton : MonoBehaviour
         MoneyText.text = $"$ {_money}";
     }
 
+    /// <summary>
+    /// Sets the ammo of the player to be a specific amount.
+    /// </summary>
+    /// <param name="ammo">The new amount of ammo the guard has.</param>
     public void SetAmmo(int ammo)
     {
         AmmoText.text = $"{ammo}x O";

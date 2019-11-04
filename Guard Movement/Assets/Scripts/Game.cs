@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Assets.Scripts
 {
@@ -19,6 +14,8 @@ namespace Assets.Scripts
         /// The manager of the UI. To be treated like a singleton.
         /// </summary>
         public static UISingleton UI { get; set; }
+
+        public static PatternGenerator PatternGenerator { get; set; }
 
         /// <summary>
         /// Defines if the game is paused or not.

@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Runtime.CompilerServices;
-using Assets.Script.Basics;
 using Assets.Script.Guards;
 using Assets.Script.Suspicious;
 using Assets.Scripts;
@@ -19,8 +15,7 @@ using Vector3 = UnityEngine.Vector3;
 [RequireComponent(typeof(Rigidbody))]
 public class CustomGuard : Guard, ISaveableScript
 {
-    public Material HightlightMaterial;
-    public PatternGenerator PatternGenerator;
+    public Material HighlightMaterial;
 
     [SerializeField] private float _waitingTime = 0;
 
@@ -37,7 +32,7 @@ public class CustomGuard : Guard, ISaveableScript
     private Vector3? _target;
     private Vector3? _lastSpotted;
 
-    private GuardModes _state;
+    private GuardModes _state = GuardModes.Route;
 
     public void Start()
     {
@@ -45,7 +40,6 @@ public class CustomGuard : Guard, ISaveableScript
         QuickSaveStorage.Get.AddScript(this);
         _movementHelper = new MovementHelper(gameObject);
         _navMeshAgent = GetComponentInParent<NavMeshAgent>();
-        _state = GuardModes.Route;
         _alertBehaviors = GetComponentsInChildren<AlertBehavior>();
         _renderer = GetComponent<Renderer>();
         _initialMaterial = _renderer.material;
@@ -98,7 +92,7 @@ public class CustomGuard : Guard, ISaveableScript
         var localRenderer = GetComponent<Renderer>();
         var calmState = _state == GuardModes.Route;
 
-        localRenderer.material = calmState ? _initialMaterial : HightlightMaterial;
+        localRenderer.material = calmState ? _initialMaterial : HighlightMaterial;
 
         _navMeshAgent.speed = calmState ? 5 : 10;
         _navMeshAgent.acceleration = calmState ? 8 : 15;
@@ -176,7 +170,7 @@ public class CustomGuard : Guard, ISaveableScript
         }
 
         var lastSpotted = _lastSpotted.Value;
-        var positionList = PatternGenerator.GeneratePattern(lastSpotted);
+        var positionList = Game.PatternGenerator.GeneratePattern(lastSpotted);
 
         MovementPattern.SetNewPattern(positionList);
 

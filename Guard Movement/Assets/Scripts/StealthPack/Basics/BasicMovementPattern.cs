@@ -26,6 +26,10 @@ namespace Assets.Script.Basics
         /// </summary>
         private int _currentState;
 
+        /// <summary>
+        /// A backup of the original pattern that is loaded at the start.
+        /// Used for resetting the pattern if needed.
+        /// </summary>
         private List<Vector3> _patternBackup;
 
         protected void Start()
