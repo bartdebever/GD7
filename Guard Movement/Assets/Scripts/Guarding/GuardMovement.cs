@@ -39,10 +39,15 @@ namespace Assets.Scripts.Guarding
 
         public override void Tick(GameObject gameObject)
         {
+            if (_target.HasValue && !(_navMeshAgent.destination == _target.Value))
+            {
+                _navMeshAgent.destination = _target.Value;
+            }
+
             // Currently not at the target move towards it.
             if (_target.HasValue && _movementHelper.IsNotInRange(_target.Value, 0.3f))
             {
-                _navMeshAgent.destination = _target.Value;
+                
             }
             else
             {
