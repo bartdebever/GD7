@@ -2,12 +2,14 @@
 using Assets.Script.Guards;
 using Assets.Script.MonoBehaviourExtensions;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace Assets.Scripts.Guarding
 {
     public class GuardMovement : MonoMovementHandler
     {
         private Rigidbody _rigidbody;
+        private NavMeshAgent _navMeshAgent;
         private MovementHelper _movementHelper;
         private Vector3? _target;
         [SerializeField] private float _speed;
@@ -17,6 +19,7 @@ namespace Assets.Scripts.Guarding
         private void Start()
         {
             _rigidbody = GetComponent<Rigidbody>();
+            _navMeshAgent = GetComponent<NavMeshAgent>();
             _movementHelper = new MovementHelper(gameObject);
         }
 
@@ -40,7 +43,7 @@ namespace Assets.Scripts.Guarding
             // Currently not at the target move towards it.
             if (_target.HasValue && _movementHelper.IsNotInRange(_target.Value, 0.3f))
             {
-                _movementHelper.Move(_rigidbody, _target.Value, _speed);
+                //_movementHelper.Move(_rigidbody, _target.Value, _speed);
             }
             else
             {
@@ -56,6 +59,7 @@ namespace Assets.Scripts.Guarding
                 if (_currentWaiting >= _waitingTime)
                 {
                     _target = MovementPattern.GetNextTarget();
+                    _navMeshAgent.destination = _target.Value;
                     _currentWaiting = 0f;
                 }
                 else
