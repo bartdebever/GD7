@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Assets.Script.MonoBehaviourExtensions;
 using UnityEngine;
 
@@ -25,6 +26,13 @@ namespace Assets.Script.Basics
         /// </summary>
         private int _currentState;
 
+        private List<Vector3> _patternBackup;
+
+        protected void Start()
+        {
+            _patternBackup = Pattern;
+        }
+
         /// <inheritdoc />
         public override Vector3 GetCurrentTarget()
         {
@@ -40,6 +48,32 @@ namespace Assets.Script.Basics
             }
 
             return Pattern[_currentState];
+        }
+
+        public override void SetNewPattern(IEnumerable<Vector3> pattern)
+        {
+            if (pattern == null)
+            {
+                ResetPattern();
+                return;
+            }
+
+            Pattern = pattern.ToList();
+        }
+
+        public override void ResetPattern()
+        {
+            Pattern = _patternBackup;
+        }
+
+        protected void OnDrawGizmos()
+        {
+            Gizmos.color = Color.yellow;
+            foreach (var position in Pattern)
+            {
+                Gizmos.DrawSphere(position, 1);
+            }
+            
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Assets.Script.Interface;
+﻿using System.Collections.Generic;
+using Assets.Script.Interface;
 using UnityEngine;
 
 namespace Assets.Script.MonoBehaviourExtensions
@@ -14,5 +15,9 @@ namespace Assets.Script.MonoBehaviourExtensions
 
         /// <inheritdoc />
         public abstract Vector3 GetNextTarget();
+
+        public abstract void SetNewPattern(IEnumerable<Vector3> pattern);
+
+        public abstract void ResetPattern();
     }
 }

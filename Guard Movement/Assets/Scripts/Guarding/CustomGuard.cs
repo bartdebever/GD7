@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Runtime.CompilerServices;
 using Assets.Script.Basics;
 using Assets.Script.Guards;
@@ -11,12 +12,14 @@ using Assets.Scripts.QuickLoading;
 using Assets.Scripts.Statistics;
 using UnityEditor;
 using UnityEngine;
+using Vector3 = UnityEngine.Vector3;
 
 [RequireComponent(typeof(AlertBehavior))]
 [RequireComponent(typeof(Rigidbody))]
 public class CustomGuard : Guard, ISaveableScript
 {
     public Material HightlightMaterial;
+    public PatternGenerator PatternGenerator;
 
     [SerializeField] private float _waitingTime = 0;
 
@@ -31,6 +34,7 @@ public class CustomGuard : Guard, ISaveableScript
     private float _currentWaiting;
     private int _targetCounter;
     private Vector3? _target;
+    private Vector3? _lastSpotted;
 
     private GuardModes _state;
 
@@ -68,7 +72,16 @@ public class CustomGuard : Guard, ISaveableScript
 
         }
     }
-    
+
+    private void OnDrawGizmos()
+    {
+        if (_lastSpotted.HasValue)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawSphere(_lastSpotted.Value, 2);
+        }
+    }
+
     #region  Suspicious Target code
 
     public void GetInformed(GameObject toInspectLocation)
@@ -109,6 +122,8 @@ public class CustomGuard : Guard, ISaveableScript
             if (_movementHelper.IsNotInRange(_overrideTarget.transform.position, 20f))
             {
                 // Stop chasing the target and go back to the normal route.
+                _lastSpotted = _overrideTarget.transform.position;
+                GenerateNewPattern();
                 _overrideTarget = null;
                 _state = GuardModes.Route;
                 ChangeState(GuardVariables.MinimumAlert);
@@ -134,7 +149,7 @@ public class CustomGuard : Guard, ISaveableScript
             
         }
     }
-
+    
     private void HandleSuspiciousTarget()
     {
         var suspiciousObject = _overrideTarget.GetComponent<SuspiciousObject>();
@@ -149,7 +164,20 @@ public class CustomGuard : Guard, ISaveableScript
     }
 
     #endregion
-    
+
+    private void GenerateNewPattern()
+    {
+        if (!_lastSpotted.HasValue)
+        {
+            return;
+        }
+
+        var lastSpotted = _lastSpotted.Value;
+        var positionList = PatternGenerator.GeneratePattern(lastSpotted);
+
+        MovementPattern.SetNewPattern(positionList);
+    }
+
     #region QuickSave
     public Dictionary<string, object> Save()
     {

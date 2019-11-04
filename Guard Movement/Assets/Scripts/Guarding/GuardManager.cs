@@ -21,6 +21,7 @@ public class GuardManager : MonoBehaviour
 
         foreach (var guard in guardsToAlert)
         {
+            continue;
             guard.GetInformed(objectLocation);
         }
     }
