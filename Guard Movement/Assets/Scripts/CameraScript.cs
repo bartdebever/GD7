@@ -29,24 +29,30 @@ public class CameraScript : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        if (!_introMove)
-        {
-            return;
-        }
-
         // Check if the camera is not in the provided range of an object.
-        if (_movementHelper.IsNotInRange(ParentObject.gameObject.transform.position, 1f))
+        if (_introMove && _movementHelper.IsNotInRange(ParentObject.gameObject.transform.position, 1f))
         {
             // If not, move the camera to that object.
             _movementHelper.Move(_rigidbody, ParentObject.gameObject.transform.position, 10f);
+            return;
         }
-        else
+        if (_introMove)
         {
             // The camera is close enough and the intro should end.
             FinishIntro();
         }
+
+        // Player object no longer exists, maybe it got killed.
+        // Just return instead.
+        if (ParentObject == null)
+        {
+            return;
+        }
+
+        // Set the camera position to be above the parent's position.
+        transform.position = new Vector3(ParentObject.transform.position.x, transform.localPosition.y, ParentObject.transform.position.z);
     }
 
     /// <summary>
@@ -75,7 +81,7 @@ public class CameraScript : MonoBehaviour
 
         // Set the camera as the child of the object that will be the player.
         // This makes it so the camera will follow the player.
-        gameObject.transform.SetParent(ParentObject.transform);
+        //gameObject.transform.SetParent(ParentObject.transform);
 
         // Destroy the rigidbody component as it will hinder the camera from moving
         // with the player.

@@ -106,6 +106,11 @@ public class PlayerMovement : MonoBehaviour, ISaveableScript
             force.z -= Speed;
         }
 
-        _rigidbody.AddRelativeForce(force);
+        _rigidbody.AddForce(force);
+        var position = transform.position;
+        position.x += force.x;
+        position.z += force.z;
+
+        transform.LookAt(position);
     }
 }

@@ -7,7 +7,11 @@ public class DeliverySystem : MonoBehaviour
 {
     public bool ReceiveItem(StealableObject item)
     {
-        Debug.Log(item);
+        if (item == null)
+        {
+            return false;
+        }
+
         Game.UI.IncreaseMoney(item.Earnings);
         return true;
     }

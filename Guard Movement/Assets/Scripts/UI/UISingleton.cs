@@ -14,6 +14,8 @@ public class UISingleton : MonoBehaviour
 
     public Text MoneyText;
 
+    public Text AmmoText;
+
     private Text _bottomPanelText;
 
     private int _money;
@@ -57,5 +59,10 @@ public class UISingleton : MonoBehaviour
         _money += amount;
 
         MoneyText.text = $"$ {_money}";
+    }
+
+    public void SetAmmo(int ammo)
+    {
+        AmmoText.text = $"{ammo}x O";
     }
 }

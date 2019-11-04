@@ -145,6 +145,7 @@ public class CustomGuard : Guard, ISaveableScript
         _overrideTarget = null;
 
         ChangeState(suspiciousObject);
+        ToggleSearching();
     }
 
     #endregion
