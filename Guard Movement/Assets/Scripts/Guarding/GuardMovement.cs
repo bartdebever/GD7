@@ -72,5 +72,10 @@ namespace Assets.Scripts.Guarding
                 }
             }
         }
+
+        public void SkipTarget()
+        {
+            _target = null;
+        }
     }
 }

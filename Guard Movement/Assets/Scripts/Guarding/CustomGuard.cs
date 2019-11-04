@@ -179,6 +179,10 @@ public class CustomGuard : Guard, ISaveableScript
         var positionList = PatternGenerator.GeneratePattern(lastSpotted);
 
         MovementPattern.SetNewPattern(positionList);
+
+        // Skip ahead to the next target.
+        // This is to prevent the guard from walking to the last pattern.
+        (MovementHandler as GuardMovement)?.SkipTarget();
     }
 
     #region QuickSave
