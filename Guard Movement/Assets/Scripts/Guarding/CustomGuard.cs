@@ -12,6 +12,7 @@ using Assets.Scripts.QuickLoading;
 using Assets.Scripts.Statistics;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.AI;
 using Vector3 = UnityEngine.Vector3;
 
 [RequireComponent(typeof(AlertBehavior))]
@@ -26,7 +27,7 @@ public class CustomGuard : Guard, ISaveableScript
     private readonly Dictionary<GameObject, Vector3> _spottedObjects = new Dictionary<GameObject, Vector3>();
     private IEnumerable<AlertBehavior> _alertBehaviors;
     private MovementHelper _movementHelper;
-    private Rigidbody _rigidbody;
+    private NavMeshAgent _navMeshAgent;
     private GameObject _overrideTarget;
     private Material _initialMaterial;
     private Renderer _renderer;
@@ -43,7 +44,7 @@ public class CustomGuard : Guard, ISaveableScript
         UniqueId = GUID.Generate();
         QuickSaveStorage.Get.AddScript(this);
         _movementHelper = new MovementHelper(gameObject);
-        _rigidbody = GetComponentInParent<Rigidbody>();
+        _navMeshAgent = GetComponentInParent<NavMeshAgent>();
         _state = GuardModes.Route;
         _alertBehaviors = GetComponentsInChildren<AlertBehavior>();
         _renderer = GetComponent<Renderer>();
@@ -131,8 +132,7 @@ public class CustomGuard : Guard, ISaveableScript
                 return;
             }
 
-            // Move towards the target.
-            _movementHelper.Move(_rigidbody, _overrideTarget.transform.position, 7f);
+            _navMeshAgent.destination = _overrideTarget.transform.position;
         }
         else
         {

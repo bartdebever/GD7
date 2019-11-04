@@ -8,17 +8,16 @@ namespace Assets.Scripts.Guarding
 {
     public class GuardMovement : MonoMovementHandler
     {
-        private Rigidbody _rigidbody;
         private NavMeshAgent _navMeshAgent;
         private MovementHelper _movementHelper;
         private Vector3? _target;
+
         [SerializeField] private float _speed;
         private float _waitingTime;
         private float _currentWaiting;
 
         private void Start()
         {
-            _rigidbody = GetComponent<Rigidbody>();
             _navMeshAgent = GetComponent<NavMeshAgent>();
             _movementHelper = new MovementHelper(gameObject);
         }
@@ -43,14 +42,14 @@ namespace Assets.Scripts.Guarding
             // Currently not at the target move towards it.
             if (_target.HasValue && _movementHelper.IsNotInRange(_target.Value, 0.3f))
             {
-                //_movementHelper.Move(_rigidbody, _target.Value, _speed);
+                _navMeshAgent.destination = _target.Value;
             }
             else
             {
                 // Set the position to be perfect so we know the same path will be followed.
                 if (_target.HasValue)
                 {
-                    _rigidbody.MovePosition(_target.Value);
+                    gameObject.transform.position = _target.Value;
                 }
 
                 // We are at the target, time to pick the next.
