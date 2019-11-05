@@ -21,5 +21,7 @@ namespace Assets.Script.Interface
         /// </summary>
         /// <param name="gameObject">The object to be moved.</param>
         void Tick(GameObject gameObject);
+
+        void SkipTarget();
     }
 }

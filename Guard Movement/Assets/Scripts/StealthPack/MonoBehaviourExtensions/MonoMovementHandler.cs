@@ -20,5 +20,7 @@ namespace Assets.Script.MonoBehaviourExtensions
 
         /// <inheritdoc />
         public abstract void Tick(GameObject gameObject);
+
+        public abstract void SkipTarget();
     }
 }

@@ -15,7 +15,7 @@ public class PatternGenerator : MonoBehaviour
         Game.PatternGenerator = this;
     }
 
-    public IEnumerable<Vector3> GeneratePattern(Vector3 origin)
+    public IEnumerable<Vector3> GeneratePattern(Vector3 origin, GameObject callingObject = null)
     {
         const long patternWidth = 15;
         const long patternHeight = 15;
@@ -49,9 +49,34 @@ public class PatternGenerator : MonoBehaviour
         // These could be moved to a different place to keep the 4 wide searching
         // pattern, yet in the scope of this game and for the scripts to work,
         // this is not needed.
-        return positionList.Where(vector3 =>
+        var finalList = positionList.Where(vector3 =>
             IsInBounds(vector3) && !IsInObstacle(vector3)
             ).ToList();
+
+        // If there are more than 1 items, the pattern is complete and can be returned.
+        if (finalList.Count > 1)
+        {
+            return finalList;
+        }
+
+        // If there is only one target, there is no complete pattern.
+        // We add the origin to create at least a pattern.
+        if (finalList.Count == 1)
+        {
+            finalList.Add(origin);
+            return finalList;
+        }
+
+        // Every spot possible is in an obstacle or not in bounds.
+        // For this we create a line between the origin of the spotted object
+        // and the current position of the guard.
+        if (!IsInObstacle(origin) && IsInBounds(origin) && callingObject != null)
+        {
+            return new []{ origin, callingObject.transform.position};
+        }
+
+        // No possible pattern is found, resume the old pattern.
+        return null;
     }
 
     private bool IsInObstacle(Vector3 point)

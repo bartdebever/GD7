@@ -12,7 +12,6 @@ using UnityEngine.AI;
 using Vector3 = UnityEngine.Vector3;
 
 [RequireComponent(typeof(AlertBehavior))]
-[RequireComponent(typeof(Rigidbody))]
 public class CustomGuard : Guard, ISaveableScript
 {
     public Material HighlightMaterial;
@@ -170,13 +169,13 @@ public class CustomGuard : Guard, ISaveableScript
         }
 
         var lastSpotted = _lastSpotted.Value;
-        var positionList = Game.PatternGenerator.GeneratePattern(lastSpotted);
+        var positionList = Game.PatternGenerator.GeneratePattern(lastSpotted, gameObject);
 
         MovementPattern.SetNewPattern(positionList);
 
         // Skip ahead to the next target.
         // This is to prevent the guard from walking to the last pattern.
-        (MovementHandler as GuardMovement)?.SkipTarget();
+        MovementHandler.SkipTarget();
     }
 
     #region QuickSave

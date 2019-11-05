@@ -24,6 +24,8 @@ public class AlertBehavior : MonoBehaviour
         }
 
         var guard = this.GetComponentInParent<CustomGuard>();
+        guard.ChangeState(suspiciousObject);
+        return;
 
         // Set up the target and origin for the raycast.
         // The raycast goes from the player to the guard because that works
