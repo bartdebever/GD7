@@ -24,34 +24,44 @@ namespace Assets.Script.Basics
         /// <summary>
         /// The current state in which the guard is within the array.
         /// </summary>
-        private int _currentState;
+        protected int CurrentState;
 
         /// <summary>
         /// A backup of the original pattern that is loaded at the start.
         /// Used for resetting the pattern if needed.
         /// </summary>
-        private List<Vector3> _patternBackup;
+        protected List<Vector3> PatternBackup;
+
+        protected int MaxRotations = 2;
+
+        protected int Rotations;
 
         protected void Start()
         {
-            _patternBackup = Pattern;
+            PatternBackup = Pattern;
         }
 
         /// <inheritdoc />
         public override Vector3 GetCurrentTarget()
         {
-            return Pattern[_currentState];
+            return Pattern[CurrentState];
         }
 
         /// <inheritdoc />
         public override Vector3 GetNextTarget()
         {
-            if (++_currentState >= Pattern.Count)
+            if (++CurrentState >= Pattern.Count)
             {
-                _currentState = 0;
+                Rotations++;
+                CurrentState = 0;
+                if (Rotations >= MaxRotations)
+                {
+                    Pattern = PatternBackup;
+                    Rotations = 0;
+                }
             }
 
-            return Pattern[_currentState];
+            return Pattern[CurrentState];
         }
 
         public override void SetNewPattern(IEnumerable<Vector3> pattern)
@@ -62,12 +72,15 @@ namespace Assets.Script.Basics
                 return;
             }
 
+            Rotations = 0;
+            CurrentState = 0;
+
             Pattern = pattern.ToList();
         }
 
         public override void ResetPattern()
         {
-            Pattern = _patternBackup;
+            Pattern = PatternBackup;
         }
 
         protected void OnDrawGizmos()

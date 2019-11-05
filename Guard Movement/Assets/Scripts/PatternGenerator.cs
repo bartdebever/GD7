@@ -6,11 +6,11 @@ using UnityEngine;
 public class PatternGenerator : MonoBehaviour
 {
     public List<GameObject> PlayFields;
-    private List<BoxCollider> _obstacles;
+    private List<Collider> _obstacles;
 
     private void Start()
     {
-        _obstacles = GetComponentsInChildren<BoxCollider>().ToList();
+        _obstacles = GetComponentsInChildren<Collider>().ToList();
 
         Game.PatternGenerator = this;
     }

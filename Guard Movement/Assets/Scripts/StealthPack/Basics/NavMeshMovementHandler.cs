@@ -15,6 +15,7 @@ namespace Assets.Scripts.StealthPack.Basics
         protected float MinDistance = 1.5f;
         protected NavMeshAgent NavMeshAgent;
         protected Vector3? Target;
+
         public bool DrawGizmos;
 
         protected void Start()
