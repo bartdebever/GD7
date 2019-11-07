@@ -23,9 +23,7 @@ public class AlertBehavior : MonoBehaviour
             return;
         }
 
-        var guard = this.GetComponentInParent<CustomGuard>();
-        guard.ChangeState(suspiciousObject);
-        return;
+        var guard = GetComponentInParent<CustomGuard>();
 
         // Set up the target and origin for the raycast.
         // The raycast goes from the player to the guard because that works
@@ -48,6 +46,7 @@ public class AlertBehavior : MonoBehaviour
         if (DrawRay)
         {
             Debug.DrawRay(origin, target, Color.cyan, 2f);
+            Debug.Log($"Vision Raycast hit \"{keyCastOut.transform.gameObject.name}");
         }
 
         // If something is hit, check if it's the guard.

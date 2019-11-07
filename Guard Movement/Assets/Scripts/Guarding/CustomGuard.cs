@@ -116,7 +116,7 @@ public class CustomGuard : Guard, ISaveableScript
         if (_movementHelper.IsNotInRange(_overrideTarget.transform.position, 5f))
         {
             // If it is not within the max distance of the guards "vision"
-            if (_movementHelper.IsNotInRange(_overrideTarget.transform.position, 20f))
+            if (_movementHelper.IsNotInRange(_overrideTarget.transform.position, 25f))
             {
                 // Stop chasing the target and go back to the normal route.
                 _lastSpotted = _overrideTarget.transform.position;
