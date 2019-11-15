@@ -7,7 +7,7 @@ using Assets.Scripts.QuickLoading;
 using UnityEditor;
 using UnityEngine;
 
-public class StealableObject : MonoBehaviourExtensions, ISaveableScript
+public class StealableObject : MonoBehaviour, ISaveableScript
 {
     /// <summary>
     /// The material to highlight the object with to indicate it can be interacted with.

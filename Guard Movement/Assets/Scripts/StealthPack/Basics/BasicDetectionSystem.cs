@@ -10,12 +10,12 @@ namespace Assets.Script.Basics
     /// </summary>
     public class BasicDetectionSystem : MonoDetectionSystem
     {
-        private readonly UnityEvent<SuspiciousObject> _detectionEvent = new SuspiciousUnityEvent();
+        protected readonly UnityEvent<SuspiciousObject> DetectionEvent = new SuspiciousUnityEvent();
 
         /// <inheritdoc />
         public override void AddListener(UnityAction<SuspiciousObject> action)
         {
-            _detectionEvent.AddListener(action);
+            DetectionEvent.AddListener(action);
         }
     }
 }

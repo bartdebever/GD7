@@ -1,28 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Assets.Script.Guards;
 using Assets.Script.MonoBehaviourExtensions;
+using Assets.Scripts.QuickLoading;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 
 namespace Assets.Scripts.StealthPack.Basics
 {
-    public class NavMeshMovementHandler : MonoMovementHandler
+    public class NavMeshMovementHandler : MonoMovementHandler, ISaveableScript
     {
-        protected float MinDistance = 1.5f;
         protected NavMeshAgent NavMeshAgent;
         protected Vector3? Target;
 
+        [Tooltip("The minimum amount of distance to register as on the point.")]
+        public float MinDistance = 1.5f;
+
+        [Header("Debugging")]
+        [Tooltip("Draws a WireSphere at the current target and a ray for the path towards that target.")]
         public bool DrawGizmos;
+        public Color PathDebugColor = Color.red;
 
         protected void Start()
         {
             NavMeshAgent = GetComponent<NavMeshAgent>();
+            UniqueId = GUID.Generate();
+            QuickSaveStorage.Get.AddScript(this);
         }
 
+        /// <inheritdoc />
         public override void SetTarget(Vector3 target, GuardData guardData)
         {
             Target = target;
@@ -37,14 +43,20 @@ namespace Assets.Scripts.StealthPack.Basics
 
             Gizmos.DrawWireSphere(Target.Value, 2f);
 
-            for (int i = 0; i < NavMeshAgent.path.corners.Length - 1; i++)
+            // Go over all corners of the path from the NavMesh agent and draw
+            // a line between them to visualize the path that the Agent will take.
+            for (var i = 0; i < NavMeshAgent.path.corners.Length - 1; i++)
             {
-                Debug.DrawLine(NavMeshAgent.path.corners[i], NavMeshAgent.path.corners[i + 1], Color.red);
+                Debug.DrawLine(NavMeshAgent.path.corners[i], NavMeshAgent.path.corners[i + 1], PathDebugColor);
             }
         }
 
+        /// <inheritdoc />
         public override void Tick(GameObject gameObject)
         {
+            // Check if the NavMesh Agent isn't behind on the target for some reason.
+            // If there is a mismatch in the target and the destination.
+            // Set it again.
             if (Target.HasValue && !(NavMeshAgent.destination == Target.Value))
             {
                 NavMeshAgent.destination = Target.Value;
@@ -61,14 +73,41 @@ namespace Assets.Scripts.StealthPack.Basics
             }
             else if (!Target.HasValue)
             {
+                // For some reason there is no target yet, could be on startup.
+                // Gets the next target.
                 SkipTarget();
             }
         }
 
+        /// <inheritdoc />
         public override void SkipTarget()
         {
+            // Set the target to be the next in the movement pattern.
+            // Replaces the current target no matter the situation.
             Target = MovementPattern.GetNextTarget();
+
+            // Set the new destination for the NavMesh Agent.
             NavMeshAgent.destination = Target.Value;
         }
+
+        public virtual Dictionary<string, object> Save()
+        {
+            return new Dictionary<string, object>()
+            {
+                {nameof(Target), Target}
+            };
+        }
+
+        public virtual void Load(Dictionary<string, object> saveState)
+        {
+            Target = (Vector3?) saveState[nameof(Target)];
+
+            if (Target.HasValue)
+            {
+                NavMeshAgent.destination = Target.Value;
+            }
+        }
+
+        public GUID UniqueId { get; protected set; }
     }
 }

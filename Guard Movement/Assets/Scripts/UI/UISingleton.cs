@@ -38,7 +38,7 @@ public class UISingleton : MonoBehaviour
         // Unsure where the call came from but error checking is not terrible.
         if (_bottomPanelText == null)
         {
-            Debug.LogError("Tried to set bottom text when no text was found.");
+            Debug.LogWarning("Tried to set bottom text when no text was found.");
             return;
         }
 

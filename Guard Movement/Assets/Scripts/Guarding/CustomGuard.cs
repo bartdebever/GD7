@@ -6,20 +6,21 @@ using Assets.Scripts;
 using Assets.Scripts.Guarding;
 using Assets.Scripts.QuickLoading;
 using Assets.Scripts.Statistics;
+using Assets.Scripts.StealthPack.Basics;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 using Vector3 = UnityEngine.Vector3;
 
-[RequireComponent(typeof(AlertBehavior))]
+[RequireComponent(typeof(BasicTriggerDetection))]
 public class CustomGuard : Guard, ISaveableScript
 {
     public Material HighlightMaterial;
 
     [SerializeField] private float _waitingTime = 0;
 
-    private readonly Dictionary<GameObject, Vector3> _spottedObjects = new Dictionary<GameObject, Vector3>();
-    private IEnumerable<AlertBehavior> _alertBehaviors;
+    protected readonly Dictionary<GameObject, Vector3> SpottedObjects = new Dictionary<GameObject, Vector3>();
+    private IEnumerable<BasicTriggerDetection> _alertBehaviors;
     private MovementHelper _movementHelper;
     private NavMeshAgent _navMeshAgent;
     private GameObject _overrideTarget;
@@ -27,19 +28,19 @@ public class CustomGuard : Guard, ISaveableScript
     private Renderer _renderer;
 
     private float _currentWaiting;
-    private int _targetCounter;
     private Vector3? _target;
     private Vector3? _lastSpotted;
 
     private GuardModes _state = GuardModes.Route;
 
-    public void Start()
+    protected override void Start()
     {
+        base.Start();
         UniqueId = GUID.Generate();
         QuickSaveStorage.Get.AddScript(this);
         _movementHelper = new MovementHelper(gameObject);
         _navMeshAgent = GetComponentInParent<NavMeshAgent>();
-        _alertBehaviors = GetComponentsInChildren<AlertBehavior>();
+        _alertBehaviors = GetComponentsInChildren<BasicTriggerDetection>();
         _renderer = GetComponent<Renderer>();
         _initialMaterial = _renderer.material;
     }
@@ -123,7 +124,7 @@ public class CustomGuard : Guard, ISaveableScript
                 GenerateNewPattern();
                 _overrideTarget = null;
                 _state = GuardModes.Route;
-                ChangeState(GuardVariables.MinimumAlert);
+                ChangeState(GuardVariables.MaximumAlert / 2f);
                 ToggleSearching();
                 return;
             }
@@ -179,29 +180,26 @@ public class CustomGuard : Guard, ISaveableScript
     }
 
     #region QuickSave
-    public Dictionary<string, object> Save()
+    public override Dictionary<string, object> Save()
     {
-        var saveState = new Dictionary<string, object>();
+        var saveState = base.Save();
 
         saveState.Add("position", gameObject.transform.position);
-        saveState.Add("targetCounter", _targetCounter);
         saveState.Add("target", _target);
         saveState.Add("state", _state);
 
         return saveState;
     }
 
-    public void Load(Dictionary<string, object> saveState)
+    public override void Load(Dictionary<string, object> saveState)
     {
+        base.Load(saveState);
         gameObject.transform.position = (Vector3) saveState["position"];
-        _targetCounter = (int) saveState["targetCounter"];
         _target = (Vector3?) saveState["target"];
         _state = (GuardModes) saveState["state"];
 
         ToggleSearching();
     }
-
-    public GUID UniqueId { get; private set; }
     #endregion
 
     #region StateMachineActions
@@ -216,18 +214,16 @@ public class CustomGuard : Guard, ISaveableScript
         }},
         {GuardVariables.MaximumAlert, (spottedObject) =>
         {
-           
-
             // If the dictionary already contains the object found, update it's position in the list.
-            if (_spottedObjects.ContainsKey(spottedObject))
+            if (SpottedObjects.ContainsKey(spottedObject))
             {
                 // Update the objects position with a new position.
-                _spottedObjects[spottedObject] = spottedObject.transform.position;
+                SpottedObjects[spottedObject] = spottedObject.transform.position;
             }
             else
             {
                 // Add the object to the dictionary.
-                _spottedObjects.Add(spottedObject, spottedObject.transform.position);
+                SpottedObjects.Add(spottedObject, spottedObject.transform.position);
             }
 
             var guardManager = GetComponentInParent<GuardManager>();

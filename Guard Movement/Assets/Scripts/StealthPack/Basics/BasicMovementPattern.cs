@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Assets.Script.MonoBehaviourExtensions;
+using Assets.Scripts.QuickLoading;
+using UnityEditor;
 using UnityEngine;
 
 namespace Assets.Script.Basics
@@ -9,17 +11,12 @@ namespace Assets.Script.Basics
     /// Provides a very basic movement pattern easily implemented by provided
     /// <see cref="Vector3"/> objects as a position.
     /// </summary>
-    public class BasicMovementPattern : MonoMovementPattern
+    public class BasicMovementPattern : MonoMovementPattern, ISaveableScript
     {
         /// <summary>
         /// The points that the guard will move to.
         /// </summary>
         public List<Vector3> Pattern;
-
-        /// <summary>
-        /// Defines if the Gizmos should draw where the guard is looking at.
-        /// </summary>
-        public bool DrawGizmos;
 
         /// <summary>
         /// The current state in which the guard is within the array.
@@ -32,13 +29,25 @@ namespace Assets.Script.Basics
         /// </summary>
         protected List<Vector3> PatternBackup;
 
-        protected int MaxRotations = 2;
+        [Tooltip("The maximum amount of rotations in the pattern to be done before it resets.")]
+        public int MaxRotations = 2;
 
         protected int Rotations;
+
+        /// <summary>
+        /// Defines if the Gizmos should be drawn that represent the pattern.
+        /// </summary>
+        [Tooltip("Visualizes the Pattern using Gizmo spheres")]
+        [Header("Debugging")]
+        public bool DrawGizmos;
+
+        public Color GizmoColor = Color.yellow;
 
         protected void Start()
         {
             PatternBackup = Pattern;
+            UniqueId = GUID.Generate();
+            QuickSaveStorage.Get.AddScript(this);
         }
 
         /// <inheritdoc />
@@ -52,9 +61,8 @@ namespace Assets.Script.Basics
         {
             if (++CurrentState >= Pattern.Count)
             {
-                Rotations++;
                 CurrentState = 0;
-                if (Rotations >= MaxRotations)
+                if (++Rotations >= MaxRotations)
                 {
                     Pattern = PatternBackup;
                     Rotations = 0;
@@ -80,6 +88,8 @@ namespace Assets.Script.Basics
 
         public override void ResetPattern()
         {
+            Rotations = 0;
+            CurrentState = 0;
             Pattern = PatternBackup;
         }
 
@@ -90,12 +100,33 @@ namespace Assets.Script.Basics
                 return;
             }
 
-            Gizmos.color = Color.yellow;
+            Gizmos.color = GizmoColor;
             foreach (var position in Pattern)
             {
                 Gizmos.DrawSphere(position, 1);
             }
             
         }
+
+        public Dictionary<string, object> Save()
+        {
+            var stateDictionary = new Dictionary<string, object>()
+            {
+                {nameof(Pattern), Pattern},
+                {nameof(Rotations), Rotations},
+                {nameof(CurrentState), CurrentState}
+            };
+
+            return stateDictionary;
+        }
+
+        public void Load(Dictionary<string, object> saveState)
+        {
+            Pattern = (List<Vector3>) saveState[nameof(Pattern)];
+            Rotations = (int) saveState[nameof(Rotations)];
+            CurrentState = (int) saveState[nameof(CurrentState)];
+        }
+
+        public GUID UniqueId { get; protected set; }
     }
 }

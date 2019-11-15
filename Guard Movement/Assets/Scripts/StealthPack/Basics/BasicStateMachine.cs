@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Assets.Script.Suspicious;
+using Assets.Scripts.QuickLoading;
+using UnityEditor;
 using UnityEngine;
 
 namespace Assets.Script.Basics
@@ -9,8 +11,13 @@ namespace Assets.Script.Basics
     /// <summary>
     /// Basic implementation of a state machine like behaviour.
     /// </summary>
-    public abstract class BasicStateMachine : MonoBehaviour
+    public abstract class BasicStateMachine : MonoBehaviour, ISaveableScript
     {
+        protected virtual void Start()
+        {
+            UniqueId = GUID.Generate();
+        }
+
         /// <summary>
         /// The amount of alert the guard is currently in.
         /// </summary>
@@ -115,6 +122,20 @@ namespace Assets.Script.Basics
 
             return 0;
         }
-        
+
+        public virtual Dictionary<string, object> Save()
+        {
+            return new Dictionary<string, object>
+            {
+                { nameof(_alertLevel), _alertLevel }
+            };
+        }
+
+        public virtual void Load(Dictionary<string, object> saveState)
+        {
+            _alertLevel = (float) saveState[nameof(_alertLevel)];
+        }
+
+        public GUID UniqueId { get; protected set; }
     }
 }

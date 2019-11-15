@@ -85,9 +85,10 @@ namespace Assets.Scripts.QuickLoading
                 {
                     script.Value.Load(saveState.Value);
                 }
-                catch (Exception)
+                catch (Exception exception)
                 {
                     Debug.LogError($"Tried to load a save state but operation failed for entity {saveState.Key}");
+                    Debug.LogError(exception);
                 }
             }
         }
